@@ -35,7 +35,7 @@ def create_app(db_path=DEFAULT_DB_PATH) -> FastAPI:
 
     app = FastAPI(title="Warwick Events API", lifespan=lifespan)
     from BACKEND.workflow import create_workflow
-    app.include_router(create_workflow(), prefix="/api")
+    app.include_router(create_workflow(event_provider=lambda: app.state.store.list_events()), prefix="/api")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:3000"],

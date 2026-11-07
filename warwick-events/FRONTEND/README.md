@@ -38,7 +38,7 @@ Identity remains a self-selected demo email and role, not Warwick SSO. Sessions 
 
 Official requests stay pending. This UI cannot grant a university-verified official badge. Free food is confirmed by the reviewer rather than inferred from uncertain AI output. Uploaded text is treated as untrusted source data, not agent instructions. AI has no publication or database-writing tool.
 
-The shared catalog starts empty: publish a reviewed event to populate it. Earlier browser-local events and fictional repeating samples are not automatically imported. SQLite data lives in ignored `warwick-events/BACKEND/data/`. Existing legacy `/events` routes keep their original in-memory contract and are separate from the reviewed `/api/catalog` workflow.
+The shared catalog includes reviewed events and records imported through the backend events API. Records without a start time are omitted; review flags remain visible. Earlier browser-local events and fictional repeating samples are not automatically imported. SQLite data lives in ignored `warwick-events/BACKEND/data/`. The persistent `/events` API and seed importer feed the same frontend catalog through a server-side adapter. UK times, stable imported IDs, duplicate suppression, likes, clashes and live updates work across both sources.
 
 Afacad and event photos load from external services; fallbacks remain when offline. Tab transitions and clash animations respect reduced-motion settings.
 

@@ -95,7 +95,28 @@ def issues(event):
     return errors
 
 
-def create_workflow(db_path=None, extractor=None):
+def imported_event(event):
+    """Translate the team's shared Event contract into the calendar's shape."""
+    if event.start is None:
+        return None
+    start = event.start
+    if start.tzinfo is None:
+        start = start.replace(tzinfo=timezone.utc)
+    start = start.astimezone(LONDON)
+    end = event.end
+    if end is not None and end.tzinfo is None:
+        end = end.replace(tzinfo=timezone.utc)
+    duration = round((end - start).total_seconds() / 60) if end else 60
+    return {'id': 'imported:' + event.id, 'legacyId': event.id, 'title': event.title,
+            'society': event.society, 'location': event.location or 'tbc',
+            'category': 'culture' if event.category == 'cultural' else event.category,
+            'description': event.description or '', 'date': start.strftime('%Y-%m-%d'),
+            'time': start.strftime('%H:%M'), 'duration': min(max(duration, 15), 1440),
+            'needsReview': event.needs_review, 'review_reasons': event.review_reasons,
+            'fromApi': True, 'source': event.source, 'image': '', 'freeFood': False, 'official': False}
+
+
+def create_workflow(db_path=None, extractor=None, event_provider=None):
     router = APIRouter()
     path = Path(db_path or os.getenv('COMMON_DB_PATH') or ROOT / 'warwick-events/BACKEND/data/common.sqlite3')
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -132,7 +153,16 @@ def create_workflow(db_path=None, extractor=None):
             raise HTTPException(403, 'only exec accounts can submit and publish events')
 
     def catalog():
-        return [json.loads(row[0]) for row in rows("SELECT body FROM records WHERE status='published'")]
+        published = [json.loads(row[0]) for row in rows("SELECT body FROM records WHERE status='published'")]
+        def key(event):
+            return (event['title'].strip().casefold(), event['society'].strip().casefold(), event['date'], event['time'])
+        seen = {key(event) for event in published}
+        for event in event_provider() if event_provider else []:
+            converted = imported_event(event)
+            if converted is not None and key(converted) not in seen:
+                published.append(converted)
+                seen.add(key(converted))
+        return sorted(published, key=lambda event: (event['date'], event['time'], event['id']))
 
     def profile(email):
         found = rows('SELECT body FROM profiles WHERE email=?', (email,))

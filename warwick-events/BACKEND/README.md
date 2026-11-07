@@ -46,8 +46,7 @@ Identical records are skipped. `/events` supports `q`, `category` and `upcoming`
 
 The frontend `/api` workflow remains available: AI extraction, private drafts,
 reviewed publication, personal plans and live updates. It uses a separate database
-at `BACKEND/data/common.sqlite3`. Imported `/events` records do not automatically
-appear in `/api/catalog`. See the frontend guide for the reviewed publication flow.
+at `BACKEND/data/common.sqlite3`. Imported `/events` records with a start time now appear in `/api/catalog`, Discover and the calendar. Review flags remain visible; entries without a start time are omitted. See the frontend guide for the reviewed publication flow.
 
 Run the automated API and schema tests from `warwick-events`:
 

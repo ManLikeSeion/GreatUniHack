@@ -109,6 +109,12 @@ function eventCard(event, feed=false) {
  const content=document.createElement('div'); content.className='banner-content';
  for(const [tag,text,name] of [['span',`${event.category} ? ${event.sample?'sample event':event.society}`,'event-category'],['p',`${event.date} ? ${event.time} ? ${duration(event)} min`,'event-meta'],['h3',event.title,''],['p',event.description,'event-description'],['span',event.society,'event-society']]) { const node=document.createElement(tag); node.textContent=text; node.className=name; content.append(node); }
  const badges = document.createElement('div'); badges.className = 'event-badges';
+ if (event.needsReview) {
+  const badge = document.createElement('span'); badge.className = 'review-badge';
+  badge.textContent = 'details need checking';
+  badge.title = (event.review_reasons || []).join('. ') || 'imported event details need confirmation';
+  badges.append(badge);
+ }
  if (event.freeFood === true) {
   const badge = document.createElement('span'); badge.className = 'food-badge'; badge.title = 'free food available';
   badge.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3v5m3-5v5M1 3v5a3 3 0 0 0 6 0M4 11v10M17 3c-4 3-4 9 0 9h3M20 3v18"/></svg><span>free food</span>';

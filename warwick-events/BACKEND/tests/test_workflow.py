@@ -14,7 +14,8 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path[:0] = [str(ROOT), str(ROOT / 'warwick-events')]
-from BACKEND.workflow import create_workflow, LONDON
+from BACKEND.workflow import create_workflow, imported_event, LONDON
+from BACKEND.database import EventStore
 from shared.schema import Event
 
 
@@ -126,6 +127,37 @@ class WorkflowTests(unittest.TestCase):
     def test_logout_revokes_token(self):
         self.assertEqual(self.client.delete('/api/session', headers=self.student).status_code, 200)
         self.assertEqual(self.client.get('/api/state', headers=self.student).status_code, 401)
+
+    def test_imported_events_join_catalog_plans_and_live_source(self):
+        store = EventStore(Path(self.temp.name) / 'imported.sqlite3')
+        source = Event(title='imported social', society='culture society', category='cultural',
+                       start=self.future.replace(hour=18, minute=0), location='rootes',
+                       confidence=.8, needs_review=True, review_reasons=['check location'])
+        saved, _ = store.add(source)
+        app = FastAPI()
+        app.include_router(create_workflow(self.path, self.extractor, event_provider=store.list_events), prefix='/api')
+        with TestClient(app) as client:
+            events = client.get('/api/catalog', headers=self.student).json()
+            self.assertEqual(len(events), 1)
+            self.assertEqual(events[0]['id'], 'imported:' + saved.id)
+            self.assertEqual(events[0]['category'], 'culture')
+            self.assertTrue(events[0]['needsReview'])
+            self.assertEqual(client.put('/api/plans', headers=self.student,
+                                        json={'liked': [events[0]['id']]}).status_code, 200)
+            store.add(source.model_copy(update={'title': 'another imported event'}))
+            self.assertEqual(len(client.get('/api/catalog', headers=self.student).json()), 2)
+            store.add(source.model_copy(update={'title': 'unknown date', 'start': None}))
+            self.assertEqual(len(client.get('/api/catalog', headers=self.student).json()), 2)
+
+    def test_imported_conversion_uses_uk_time_and_clamps_duration(self):
+        event = Event(id='example', title='summer event', society='test', category='careers',
+                      start=datetime.fromisoformat('2027-07-01T18:00:00+00:00'),
+                      end=datetime.fromisoformat('2027-07-04T18:00:00+00:00'),
+                      confidence=1, needs_review=False)
+        converted = imported_event(event)
+        self.assertEqual(converted['time'], '19:00')
+        self.assertEqual(converted['duration'], 1440)
+        self.assertEqual(converted['category'], 'careers')
 
     def test_missing_ai_configuration_is_explicit(self):
         app = FastAPI()
