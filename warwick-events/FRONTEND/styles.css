@@ -45,3 +45,6 @@ body{text-transform:lowercase}select,textarea{font:inherit;color:var(--green);wi
 .banner-visual{min-height:170px}
 .banner-visual .banner-content{padding-top:70px}
 @media(max-width:760px){.uni-logo{height:40px}.brand-name{font-size:26px}.uni-name{font-size:10px;letter-spacing:1.2px;padding:2px 9px}}
+
+.field-note+a,.onboarding-view a{color:#6a2c91;font-weight:600;text-decoration-color:#bfa3d3}
+.onboarding-view a:hover{color:#441d66}
