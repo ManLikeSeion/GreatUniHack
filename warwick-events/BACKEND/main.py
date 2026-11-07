@@ -2,12 +2,19 @@
 
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
+import logging
 
-from fastapi import FastAPI, HTTPException, Response, status
+import anthropic
+from fastapi import Depends, FastAPI, File, Form, HTTPException, Response, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import ValidationError
 
 from BACKEND.database import DEFAULT_DB_PATH, EventStore
-from shared.schema import Category, Event
+from BACKEND.extraction import ExtractionNotConfigured, extract_events
+from shared.schema import Category, Event, ExtractionResult
+
+log = logging.getLogger(__name__)
+MAX_IMAGE_BYTES = 5 * 1024 * 1024
 
 
 def event_time(event: Event) -> datetime:
@@ -31,7 +38,7 @@ def create_app(db_path=DEFAULT_DB_PATH) -> FastAPI:
     app.include_router(create_workflow(), prefix="/api")
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:5173", "http://localhost:3000"],
+        allow_origins=["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:3000"],
         allow_methods=["GET", "POST", "PUT", "DELETE"],
         allow_headers=["Content-Type", "Authorization"],
     )
@@ -39,6 +46,49 @@ def create_app(db_path=DEFAULT_DB_PATH) -> FastAPI:
     @app.get("/health")
     def health() -> dict[str, str]:
         return {"status": "ok"}
+
+    @app.post("/extract", response_model=ExtractionResult)
+    def extract_submission(
+        text: str | None = Form(None, max_length=20000),
+        society_name: str | None = Form(None, max_length=200),
+        society_id: str | None = Form(None, max_length=200),
+        image: UploadFile | None = File(None),
+    ) -> ExtractionResult:
+        """Extract drafts for review. Does not publish or save events."""
+        text = text.strip() if text else None
+        image_bytes = None
+        media_type = "image/jpeg"
+        if image is not None:
+            media_type = image.content_type or ""
+            if media_type not in {"image/jpeg", "image/png", "image/webp", "image/gif"}:
+                raise HTTPException(415, "Upload a JPEG, PNG, WebP or GIF poster")
+            image_bytes = image.file.read(MAX_IMAGE_BYTES + 1)
+            if len(image_bytes) > MAX_IMAGE_BYTES:
+                raise HTTPException(413, "Poster must be no larger than 5 MiB")
+            if not image_bytes:
+                raise HTTPException(422, "Poster is empty")
+        if not text and not image_bytes:
+            raise HTTPException(422, "Provide announcement text, a poster, or both")
+        try:
+            return extract_events(text=text, image=image_bytes,
+                                  image_media_type=media_type,
+                                  society_name=society_name, society_id=society_id)
+        except anthropic.APITimeoutError:
+            raise HTTPException(504, "Extraction service timed out; try again") from None
+        except anthropic.RateLimitError:
+            raise HTTPException(503, "Extraction service is busy; try again later") from None
+        except (ExtractionNotConfigured, anthropic.AuthenticationError, anthropic.PermissionDeniedError):
+            raise HTTPException(503, "Extraction service credentials need configuration") from None
+        except (anthropic.APIError, RuntimeError, ValidationError, ValueError):
+            log.exception("Event extraction failed")
+            raise HTTPException(502, "Could not extract events; try again or revise the submission") from None
+
+    @app.post("/submit", response_model=list[Event])
+    def submit_submission(
+        drafts: ExtractionResult = Depends(extract_submission),
+    ) -> list[Event]:
+        """Extract and immediately store all events, including flagged events."""
+        return [event for event, _ in app.state.store.add_batch(drafts.events)]
 
     @app.get("/events", response_model=list[Event])
     def list_events(q: str | None = None, category: Category | None = None,

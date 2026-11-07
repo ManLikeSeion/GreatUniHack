@@ -5,3 +5,4 @@ python-dotenv>=1,<2
 tzdata
 pillow>=11,<14
 httpx>=0.28,<1
+python-multipart

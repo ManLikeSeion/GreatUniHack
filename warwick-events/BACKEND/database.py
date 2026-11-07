@@ -49,12 +49,12 @@ class EventStore:
         with closing(self.connect()) as connection, connection:
             return self._insert(connection, event)
 
-    def import_events(self, events: list[Event]):
-        inserted = 0
+    def add_batch(self, events: list[Event]) -> list[tuple[Event, bool]]:
         with closing(self.connect()) as connection, connection:
-            for event in events:
-                _, created = self._insert(connection, event)
-                inserted += int(created)
+            return [self._insert(connection, event) for event in events]
+
+    def import_events(self, events: list[Event]):
+        inserted = sum(created for _, created in self.add_batch(events))
         return {"inserted": inserted, "skipped": len(events) - inserted}
 
     def list_events(self) -> list[Event]:
