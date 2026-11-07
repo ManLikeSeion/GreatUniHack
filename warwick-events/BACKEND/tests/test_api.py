@@ -2,6 +2,8 @@
 
 import unittest
 from copy import deepcopy
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
@@ -12,8 +14,10 @@ from shared.schema import EXAMPLE, Event
 
 class EventsAPITests(unittest.TestCase):
     def setUp(self):
-        self.client = TestClient(create_app())
-        self.addCleanup(self.client.close)
+        self.temp = TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.db_path = Path(self.temp.name) / "test.sqlite3"
+        self.client = self.enterContext(TestClient(create_app(self.db_path)))
         self.payload = deepcopy(EXAMPLE["events"][0])
 
     def test_health(self):
@@ -21,34 +25,32 @@ class EventsAPITests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"status": "ok"})
 
-    def test_samples_conform_to_shared_schema_and_can_be_retrieved(self):
-        response = self.client.get("/events")
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.json())
-        for item in response.json():
-            event = Event.model_validate(item)
-            self.assertIsNotNone(event.id)
-            detail = self.client.get(f"/events/{event.id}")
-            self.assertEqual(detail.status_code, 200)
-            self.assertEqual(detail.json(), item)
+    def test_empty_startup_and_persistence(self):
+        self.assertEqual(self.client.get("/events").json(), [])
+        created = self.client.post("/events", json=self.payload).json()
+        Event.model_validate(created)
+        with TestClient(create_app(self.db_path)) as restarted:
+            self.assertEqual(restarted.get(f"/events/{created['id']}").json(), created)
+            self.assertEqual(restarted.get("/events").json(), [created])
 
     def test_missing_event(self):
         response = self.client.get("/events/missing")
         self.assertEqual(response.status_code, 404)
 
-    def test_create_assigns_unique_ids_and_preserves_existing_events(self):
-        original = self.client.get("/events/sample-1").json()
-        self.payload["id"] = "sample-1"
+    def test_create_assigns_ids_and_skips_duplicates(self):
+        self.payload["id"] = "client-id"
         first = self.client.post("/events", json=self.payload)
+        self.payload["id"] = "another-client-id"
         second = self.client.post("/events", json=self.payload)
         self.assertEqual(first.status_code, 201)
-        self.assertEqual(second.status_code, 201)
-        event = Event.model_validate(first.json())
-        self.assertNotEqual(event.id, "sample-1")
-        self.assertNotEqual(event.id, second.json()["id"])
-        self.assertEqual(self.client.get(f"/events/{event.id}").json(), first.json())
-        self.assertEqual(self.client.get("/events/sample-1").json(), original)
-        self.assertEqual(len(self.client.get("/events").json()), 3)
+        self.assertEqual(second.status_code, 200)
+        self.assertNotEqual(first.json()["id"], "client-id")
+        self.assertEqual(first.json(), second.json())
+        self.payload["title"] = "Different event"
+        third = self.client.post("/events", json=self.payload)
+        self.assertEqual(third.status_code, 201)
+        self.assertNotEqual(third.json()["id"], first.json()["id"])
+        self.assertEqual(len(self.client.get("/events").json()), 2)
 
     def test_invalid_payloads_are_rejected_without_storing(self):
         for field, value in [("category", "invalid"), ("confidence", 1.1),
@@ -60,7 +62,7 @@ class EventsAPITests(unittest.TestCase):
                 self.assertEqual(self.client.post("/events", json=payload).status_code, 422)
         del self.payload["title"]
         self.assertEqual(self.client.post("/events", json=self.payload).status_code, 422)
-        self.assertEqual(len(self.client.get("/events").json()), 1)
+        self.assertEqual(len(self.client.get("/events").json()), 0)
 
     def test_unknown_details_can_remain_null(self):
         self.payload.update(start=None, end=None, location=None, needs_review=True)
