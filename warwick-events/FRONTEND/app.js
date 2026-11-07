@@ -1,4 +1,5 @@
 let workflowConnected = false;
+let discoverConcepts = {};
 const $ = (id) => document.getElementById(id);
 let month = new Date();
 month.setDate(1);
@@ -116,8 +117,14 @@ function eventCard(event, feed=false) {
   badges.append(badge);
  }
  if (event.freeFood === true) {
-  const badge = document.createElement('span'); badge.className = 'food-badge'; badge.title = 'free food available';
+  const badge = document.createElement('span'); badge.className = 'food-badge'; badge.title = event.freeFoodReason || 'free food available';
   badge.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3v5m3-5v5M1 3v5a3 3 0 0 0 6 0M4 11v10M17 3c-4 3-4 9 0 9h3M20 3v18"/></svg><span>free food</span>';
+  badges.append(badge);
+  if (event.likelyFreeFood) badge.querySelector('span').textContent = 'likely free food';
+ }
+ if (event.freeEntry === true) {
+  const badge = document.createElement('span'); badge.className = 'entry-badge'; badge.title = event.freeEntryReason || 'free admission';
+  badge.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4Z"/><path d="M15 7v2m0 3v1m0 3v1"/></svg><span>free entry</span>';
   badges.append(badge);
  }
  if (event.official === true) {
@@ -137,6 +144,26 @@ function eventCard(event, feed=false) {
  } else {card.append(visual,actions);}
  return card;
 }
+function discoverRelevance(event) {
+ const query = $('discover-search').value.trim().toLowerCase();
+ if (!query) return 0;
+ const direct = new Set(query.match(/[a-z0-9]+/g) || []);
+ const related = new Set();
+ for (const [concept, terms] of Object.entries(discoverConcepts)) {
+  if ([concept, ...terms].some(term => direct.has(term))) for (const term of [concept, ...terms]) related.add(term);
+ }
+ let score = 0;
+ for (const [field, weight] of [['title',6],['society',4],['description',2],['location',1],['category',2]]) {
+  const text = ' ' + String(event[field] || '').toLowerCase().replace(/[^a-z0-9]+/g,' ') + ' ';
+  for (const term of new Set([...direct,...related])) {
+   if (text.includes(' '+term+' ') || text.includes(' '+term+'s ')) score += weight * (direct.has(term) ? 3 : 1);
+  }
+ }
+ return score;
+}
+function discoverEvents() {
+ return allEvents().sort((a,b) => discoverRelevance(b)-discoverRelevance(a) || (a.date+a.time).localeCompare(b.date+b.time));
+}
 function matchesDiscoverFilters(event) {
  const status = $('feed-filter').value || 'all';
  const category = $('discover-category').value || 'all';
@@ -147,7 +174,7 @@ function matchesDiscoverFilters(event) {
   && (!$('discover-free-food').checked || event.freeFood === true)
   && (!$('discover-official').checked || event.official === true)
   && (!date || event.date === date)
-  && (!query || [event.title,event.society,event.location,event.description,event.category].join(' ').toLowerCase().includes(query))
+  && (!query || discoverRelevance(event) > 0)
   && (!$('discover-no-clashes').checked || clashesFor(event).length === 0);
 }
 function updateFeedEmpty() {
@@ -159,20 +186,12 @@ function updateFeedEmpty() {
 function renderFeed() {
  if (clashObserver) clashObserver.disconnect();
  const feed=$('discover-feed');feed.replaceChildren();
- for(const event of allEvents()) { const card=eventCard(event,true);card.hidden=!matchesDiscoverFilters(event);feed.append(card); }
+ for(const event of discoverEvents()) { const card=eventCard(event,true);card.hidden=!matchesDiscoverFilters(event);feed.append(card); }
  const empty=document.createElement('p');empty.id='feed-empty';empty.className='feed-empty';empty.textContent='no events match these filters. try another date or clear your filters.';feed.append(empty);updateFeedEmpty();
  feed.scrollTop=0;
 }
 function applyDiscoverFilters() {
- // Keep all cards available so liking or signing up can update filter results in place.
- const feed=$('discover-feed');
- const existing=new Map([...feed.children].filter(row=>row.dataset.eventId).map(row=>[row.dataset.eventId,row]));
- for(const event of allEvents()) {
-  let card=existing.get(eventId(event));
-  if(!card) {card=eventCard(event,true);feed.insertBefore(card,$('feed-empty'));}
-  card.hidden=!matchesDiscoverFilters(event);
- }
- updateFeedEmpty();feed.scrollTop=0;
+ renderFeed();
 }
 const icons = '<span class="event-dot"></span>';
 const sampleDays = [4, 7, 10, 12, 17, 20, 24, 27];
@@ -424,9 +443,10 @@ async function startWorkflow() {
   const [state, events] = await Promise.all([workflowApi('/state'), workflowApi('/catalog')]);
   if (version !== workflowGeneration) return;
   workflowConnected = true;
+  discoverConcepts = state.search_concepts || {};
   savedEvents = events;
   preferences = state.plans;
-  workflowHistory = state.history;
+  workflowHistory = [];
   showApp(state.user.email, state.user.role);
   renderChatHistory();
   for (const option of $('profile-interests').options) option.selected = (preferences.interests || []).includes(option.value);
@@ -473,13 +493,14 @@ function saveWorkflowPlans(next) {
 function readEventForm() {
   const fields = ['title', 'society', 'category', 'date', 'time', 'location', 'description', 'image'];
   return { ...Object.fromEntries(fields.map(key => [key, $('event-' + key).value.trim()])),
-    duration: Number($('event-duration').value), freeFood: $('event-free-food').checked, official: $('event-official').checked };
+    duration: Number($('event-duration').value), freeFood: $('event-free-food').checked, freeEntry: $('event-free-entry').checked, official: $('event-official').checked };
 }
 
 function openWorkflowDraft(draft) {
   currentDraft = draft;
   for (const key of ['title', 'society', 'category', 'date', 'time', 'duration', 'location', 'description', 'image']) $('event-' + key).value = draft[key] ?? '';
   $('event-free-food').checked = draft.freeFood === true;
+  $('event-free-entry').checked = draft.freeEntry === true;
   $('event-official').checked = draft.officialRequested === true;
   $('review-approved').checked = false;
   $('publish-status').textContent = '';
@@ -553,7 +574,7 @@ $('chat-form').addEventListener('submit', async event => {
   $('chat-status').textContent = 'checking published events and your saved plans...';
   try {
     const response = await workflowApi('/assistant', { method: 'POST', body: JSON.stringify({ message }) });
-    workflowHistory.push({ role: 'user', content: message }, { role: 'assistant', content: response.message });
+    workflowHistory = [{ role: 'user', content: message }, { role: 'assistant', content: response.message }];
     renderChatHistory(); $('chat-message').value = ''; $('chat-status').textContent = response.mode;
     $('chat-results').replaceChildren();
     for (const item of response.events) {
