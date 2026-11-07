@@ -16,7 +16,12 @@
       "course_subjects": [
         "computing"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/computing/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/computing/",
+      "event_name_aliases": [
+        "Computing",
+        "Warwick Computing Society",
+        "University of Warwick Computing Society"
+      ]
     },
     {
       "id": "coding-society",
@@ -29,7 +34,10 @@
       "course_subjects": [
         "computing"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwickcodingsociety/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwickcodingsociety/",
+      "event_name_aliases": [
+        "Coding Society"
+      ]
     },
     {
       "id": "warwick-ai",
@@ -43,7 +51,10 @@
         "computing",
         "data-science"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwickai/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwickai/",
+      "event_name_aliases": [
+        "Warwick AI"
+      ]
     },
     {
       "id": "warwick-data-science-society",
@@ -58,7 +69,10 @@
         "data-science",
         "mathematics"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/wdss/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/wdss/",
+      "event_name_aliases": [
+        "Warwick Data Science Society"
+      ]
     },
     {
       "id": "warwick-maths-society",
@@ -71,7 +85,11 @@
       "course_subjects": [
         "mathematics"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/maths/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/maths/",
+      "event_name_aliases": [
+        "Warwick Maths Society",
+        "Maths Society"
+      ]
     },
     {
       "id": "physics-society",
@@ -84,7 +102,11 @@
       "course_subjects": [
         "physics"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/physoc/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/physoc/",
+      "event_name_aliases": [
+        "Physics Society",
+        "Warwick Physics Society"
+      ]
     },
     {
       "id": "chemsoc",
@@ -97,7 +119,10 @@
       "course_subjects": [
         "chemistry"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/atomic/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/atomic/",
+      "event_name_aliases": [
+        "ChemSoc"
+      ]
     },
     {
       "id": "biosoc",
@@ -110,7 +135,10 @@
       "course_subjects": [
         "biology"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/biosoc/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/biosoc/",
+      "event_name_aliases": [
+        "BioSoc"
+      ]
     },
     {
       "id": "economics-society",
@@ -125,7 +153,10 @@
         "economics",
         "finance"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/economics/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/economics/",
+      "event_name_aliases": [
+        "Economics Society"
+      ]
     },
     {
       "id": "warwick-law-society",
@@ -138,7 +169,10 @@
       "course_subjects": [
         "law"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/law/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/law/",
+      "event_name_aliases": [
+        "Warwick Law Society"
+      ]
     },
     {
       "id": "psychology",
@@ -151,7 +185,10 @@
       "course_subjects": [
         "psychology"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/psychology/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/psychology/",
+      "event_name_aliases": [
+        "Psychology"
+      ]
     },
     {
       "id": "histsoc",
@@ -164,7 +201,10 @@
       "course_subjects": [
         "history"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/historysoc/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/historysoc/",
+      "event_name_aliases": [
+        "HistSoc"
+      ]
     },
     {
       "id": "warwick-engineering-society",
@@ -177,7 +217,10 @@
       "course_subjects": [
         "engineering"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/engineers/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/engineers/",
+      "event_name_aliases": [
+        "Warwick Engineering Society"
+      ]
     },
     {
       "id": "art-soc",
@@ -188,7 +231,11 @@
         "art"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/artsoc/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/artsoc/",
+      "event_name_aliases": [
+        "Art Soc",
+        "Warwick Art Society"
+      ]
     },
     {
       "id": "craft",
@@ -199,7 +246,10 @@
         "crafts"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/craft/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/craft/",
+      "event_name_aliases": [
+        "Craft"
+      ]
     },
     {
       "id": "esports",
@@ -210,7 +260,11 @@
         "gaming"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/esports/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/esports/",
+      "event_name_aliases": [
+        "Esports",
+        "Warwick Esports"
+      ]
     },
     {
       "id": "tabletop-games-and-roleplaying-society",
@@ -221,7 +275,10 @@
         "tabletop"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/sff/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/sff/",
+      "event_name_aliases": [
+        "Tabletop Games and Roleplaying Society"
+      ]
     },
     {
       "id": "warwick-student-cinema",
@@ -234,7 +291,10 @@
       "course_subjects": [
         "film"
       ],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/filmsoc/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/filmsoc/",
+      "event_name_aliases": [
+        "Warwick Student Cinema"
+      ]
     },
     {
       "id": "rock-soc",
@@ -245,7 +305,10 @@
         "music"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/rocksoc/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/rocksoc/",
+      "event_name_aliases": [
+        "Rock Soc"
+      ]
     },
     {
       "id": "good-food-society",
@@ -256,7 +319,10 @@
         "cooking"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/goodfood/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/goodfood/",
+      "event_name_aliases": [
+        "Good Food Society"
+      ]
     },
     {
       "id": "warwick-baking-society",
@@ -267,7 +333,10 @@
         "baking"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/58897/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/58897/",
+      "event_name_aliases": [
+        "Warwick Baking Society"
+      ]
     },
     {
       "id": "yoga",
@@ -278,7 +347,11 @@
         "yoga"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/yoga/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/yoga/",
+      "event_name_aliases": [
+        "Yoga",
+        "Warwick Yoga Society"
+      ]
     },
     {
       "id": "warwick-university-run-club-society",
@@ -289,7 +362,10 @@
         "running"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/74426/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/74426/",
+      "event_name_aliases": [
+        "Warwick University Run Club Society"
+      ]
     },
     {
       "id": "warwick-travel-society",
@@ -300,7 +376,10 @@
         "travel"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwicktravelsoc/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwicktravelsoc/",
+      "event_name_aliases": [
+        "Warwick Travel Society"
+      ]
     },
     {
       "id": "african-caribbean-society",
@@ -311,7 +390,10 @@
         "african-caribbean-culture"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/acs/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/acs/",
+      "event_name_aliases": [
+        "African & Caribbean Society"
+      ]
     },
     {
       "id": "warwick-language-society",
@@ -322,7 +404,10 @@
         "languages"
       ],
       "course_subjects": [],
-      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwicklanguagesoc/"
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwicklanguagesoc/",
+      "event_name_aliases": [
+        "Warwick Language Society"
+      ]
     }
   ]
 }

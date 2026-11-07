@@ -1,116 +1,1895 @@
 {
-  "version": 1,
+  "version": 2,
   "retrieved_on": "2026-11-07",
-  "curated": true,
+  "curated": false,
+  "scope": "visible-undergraduate-feed",
   "source_url": "https://sitebuilder.warwick.ac.uk/sitebuilder2/api/dataentry/entries.json?page=%2Fstudy%2Fundergraduate%2Fcourses%2Fcourse-list",
   "items": [
+    {
+      "id": "accounting-and-finance-with-foundation-year-bsc",
+      "name": "Accounting and Finance (with Foundation Year) BSc",
+      "subject": "finance",
+      "subject_ids": [
+        "finance"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-accounting-finance-foundation-year"
+    },
     {
       "id": "accounting-and-finance-bsc",
       "name": "Accounting and Finance BSc",
       "subject": "finance",
+      "subject_ids": [
+        "finance"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-accounting-finance"
+    },
+    {
+      "id": "accounting-and-finance-with-placement-year-bsc",
+      "name": "Accounting and Finance with Placement Year BSc",
+      "subject": "finance",
+      "subject_ids": [
+        "finance"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-accounting-finance-placement-year"
+    },
+    {
+      "id": "ancient-history-and-classical-archaeology-ba",
+      "name": "Ancient History and Classical Archaeology BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics",
+        "history"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-ancient-history-classical-archaeology"
+    },
+    {
+      "id": "ancient-history-and-classical-archaeology-parttime-ba",
+      "name": "Ancient History and Classical Archaeology part-time BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics",
+        "history"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-ancient-history-classical-archaeology-part-time"
+    },
+    {
+      "id": "ancient-history-and-classical-archaeology-with-study-in-europe-ba",
+      "name": "Ancient History and Classical Archaeology with Study in Europe BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics",
+        "history"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-ancient-history-classical-archaeology-study-in-europe"
+    },
+    {
+      "id": "automotive-engineering-beng",
+      "name": "Automotive Engineering BEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-automotive-engineering"
+    },
+    {
+      "id": "automotive-engineering-meng",
+      "name": "Automotive Engineering MEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-automotive-engineering"
+    },
+    {
+      "id": "biochemistry-bsc",
+      "name": "Biochemistry BSc",
+      "subject": "biology",
+      "subject_ids": [
+        "biology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-biochemistry"
+    },
+    {
+      "id": "biochemistry-mbio",
+      "name": "Biochemistry MBio",
+      "subject": "biology",
+      "subject_ids": [
+        "biology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mbio-biochemistry"
+    },
+    {
+      "id": "biochemistry-with-industrial-placement-mbio",
+      "name": "Biochemistry with Industrial Placement MBio",
+      "subject": "biology",
+      "subject_ids": [
+        "biology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mbio-biochemistry-industrial-placement"
+    },
+    {
+      "id": "biochemistry-with-placement-year-bsc",
+      "name": "Biochemistry with Placement Year BSc",
+      "subject": "biology",
+      "subject_ids": [
+        "biology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-biochemistry-placement-year"
     },
     {
       "id": "biological-sciences-bsc",
       "name": "Biological Sciences BSc",
       "subject": "biology",
+      "subject_ids": [
+        "biology"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-biological-sciences"
+    },
+    {
+      "id": "biological-sciences-mbio",
+      "name": "Biological Sciences MBio",
+      "subject": "biology",
+      "subject_ids": [
+        "biology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mbio-biological-sciences"
+    },
+    {
+      "id": "biological-sciences-with-industrial-placement-mbio",
+      "name": "Biological Sciences with Industrial Placement MBio",
+      "subject": "biology",
+      "subject_ids": [
+        "biology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mbio-biological-sciences-industrial-placement"
+    },
+    {
+      "id": "biological-sciences-with-placement-year-bsc",
+      "name": "Biological Sciences with Placement Year BSc",
+      "subject": "biology",
+      "subject_ids": [
+        "biology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-biological-sciences-placement-year"
+    },
+    {
+      "id": "biomedical-sciences-bsc",
+      "name": "Biomedical Sciences BSc",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "health-sciences"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-biomedical-sciences"
+    },
+    {
+      "id": "biomedical-sciences-mbio",
+      "name": "Biomedical Sciences MBio",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "health-sciences"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mbio-biomedical-sciences"
+    },
+    {
+      "id": "biomedical-sciences-with-industrial-placement-mbio",
+      "name": "Biomedical Sciences with Industrial Placement MBio",
+      "subject": "health-sciences",
+      "subject_ids": [
+        "health-sciences"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mbio-biomedical-sciences-industrial-placement"
+    },
+    {
+      "id": "biomedical-sciences-with-placement-year-bsc",
+      "name": "Biomedical Sciences with Placement Year BSc",
+      "subject": "health-sciences",
+      "subject_ids": [
+        "health-sciences"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-biomedical-sciences-placement-year"
+    },
+    {
+      "id": "biomedical-systems-engineering-beng",
+      "name": "Biomedical Systems Engineering BEng",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-biomedical-systems-engineering"
+    },
+    {
+      "id": "biomedical-systems-engineering-meng",
+      "name": "Biomedical Systems Engineering MEng",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-biomedical-systems-engineering"
+    },
+    {
+      "id": "business-and-management-with-foundation-year-bsc",
+      "name": "Business and Management (with Foundation Year) BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-business-management-foundation-year"
+    },
+    {
+      "id": "business-and-management-bsc",
+      "name": "Business and Management BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-business-management"
+    },
+    {
+      "id": "business-and-management-with-marketing-with-foundation-year-bsc",
+      "name": "Business and Management with Marketing (with Foundation Year) BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-business-management-marketing-foundation"
+    },
+    {
+      "id": "business-and-management-with-marketing-bsc",
+      "name": "Business and Management with Marketing BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-business-management-marketing"
+    },
+    {
+      "id": "business-and-management-with-marketing-with-placement-year-bsc",
+      "name": "Business and Management with Marketing with Placement Year BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-business-management-marketing-placement-year"
+    },
+    {
+      "id": "business-and-management-with-placement-year-bsc",
+      "name": "Business and Management with Placement Year BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-business-management-placement-year"
     },
     {
       "id": "chemistry-bsc",
       "name": "Chemistry BSc",
       "subject": "chemistry",
+      "subject_ids": [
+        "chemistry"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-chemistry"
+    },
+    {
+      "id": "chemistry-mchem",
+      "name": "Chemistry MChem",
+      "subject": "chemistry",
+      "subject_ids": [
+        "chemistry"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mchem-chemistry"
+    },
+    {
+      "id": "chemistry-with-industrial-placement-mchem",
+      "name": "Chemistry with Industrial Placement MChem",
+      "subject": "chemistry",
+      "subject_ids": [
+        "chemistry"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mchem-chemistry-industrial-placement"
+    },
+    {
+      "id": "chemistry-with-international-placement-mchem",
+      "name": "Chemistry with International Placement MChem",
+      "subject": "chemistry",
+      "subject_ids": [
+        "chemistry"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mchem-chemistry-international-placement"
+    },
+    {
+      "id": "chemistry-with-medicinal-chemistry-bsc",
+      "name": "Chemistry with Medicinal Chemistry BSc",
+      "subject": "chemistry",
+      "subject_ids": [
+        "chemistry"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-chemistry-medicinal"
+    },
+    {
+      "id": "chemistry-with-medicinal-chemistry-mchem",
+      "name": "Chemistry with Medicinal Chemistry MChem",
+      "subject": "chemistry",
+      "subject_ids": [
+        "chemistry"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mchem-chemistry-medicinal"
+    },
+    {
+      "id": "child-and-family-early-childhood-ba",
+      "name": "Child and Family: Early Childhood BA",
+      "subject": "childhood-studies",
+      "subject_ids": [
+        "childhood-studies",
+        "lifelong-learning"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-early-childhood"
+    },
+    {
+      "id": "child-and-family-mental-health-ba",
+      "name": "Child and Family: Mental Health BA",
+      "subject": "childhood-studies",
+      "subject_ids": [
+        "childhood-studies",
+        "counselling"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-child-and-family-mental-health"
+    },
+    {
+      "id": "civil-engineering-beng",
+      "name": "Civil Engineering BEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-civil-engineering"
+    },
+    {
+      "id": "civil-engineering-meng",
+      "name": "Civil Engineering MEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-civil-engineering"
+    },
+    {
+      "id": "classical-civilisation-ba",
+      "name": "Classical Civilisation BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-classical-civilisation"
+    },
+    {
+      "id": "classical-civilisation-parttime-ba",
+      "name": "Classical Civilisation part-time BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-classical-civilisation-part-time"
+    },
+    {
+      "id": "classical-civilisation-with-study-in-europe-ba",
+      "name": "Classical Civilisation with Study in Europe BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-classical-civilisation-study-in-europe"
+    },
+    {
+      "id": "classics-ancient-greek-with-study-in-europe-ba",
+      "name": "Classics (Ancient Greek) with Study in Europe BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-classics-ancient-greek-study-in-europe"
+    },
+    {
+      "id": "classics-latin-with-study-in-europe-ba",
+      "name": "Classics (Latin) with Study in Europe BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-classics-latin-study-in-europe"
+    },
+    {
+      "id": "classics-and-english-ba",
+      "name": "Classics and English BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics",
+        "literature"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-classics-english"
+    },
+    {
+      "id": "classics-ba",
+      "name": "Classics BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-classics"
+    },
+    {
+      "id": "classics-parttime-ba",
+      "name": "Classics part-time BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-classics-part-time"
     },
     {
       "id": "computer-science-bsc",
       "name": "Computer Science BSc",
       "subject": "computing",
+      "subject_ids": [
+        "computing"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-computer-science"
+    },
+    {
+      "id": "computer-science-meng",
+      "name": "Computer Science MEng",
+      "subject": "computing",
+      "subject_ids": [
+        "computing"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-computer-science"
+    },
+    {
+      "id": "computer-science-with-business-studies-bsc",
+      "name": "Computer Science with Business Studies BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business",
+        "computing"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-computer-science-business"
+    },
+    {
+      "id": "computer-systems-engineering-beng",
+      "name": "Computer Systems Engineering BEng",
+      "subject": "computing",
+      "subject_ids": [
+        "computing",
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-computer-systems-engineering"
+    },
+    {
+      "id": "computer-systems-engineering-meng",
+      "name": "Computer Systems Engineering MEng",
+      "subject": "computing",
+      "subject_ids": [
+        "computing",
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-computer-systems-engineering"
+    },
+    {
+      "id": "counselling-and-the-psychotherapeutic-relationship-ba",
+      "name": "Counselling and the Psychotherapeutic Relationship BA",
+      "subject": "counselling",
+      "subject_ids": [
+        "counselling",
+        "lifelong-learning"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-counselling-psychotherapeutic-relationship"
+    },
+    {
+      "id": "cyber-security-bsc",
+      "name": "Cyber Security BSc",
+      "subject": "cyber-security",
+      "subject_ids": [
+        "cyber-security"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-cyber-security"
     },
     {
       "id": "data-science-bsc",
       "name": "Data Science BSc",
       "subject": "data-science",
+      "subject_ids": [
+        "computing",
+        "data-science",
+        "mathematics",
+        "statistics"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-data-science"
+    },
+    {
+      "id": "data-science-msci",
+      "name": "Data Science MSci",
+      "subject": "computing",
+      "subject_ids": [
+        "computing",
+        "data-science",
+        "mathematics",
+        "statistics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/msci-data-science"
+    },
+    {
+      "id": "design-and-global-sustainable-development-basc",
+      "name": "Design and Global Sustainable Development BASc",
+      "subject": "design",
+      "subject_ids": [
+        "design",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-design-global-sustainable-development"
+    },
+    {
+      "id": "design-for-sustainable-innovation-basc",
+      "name": "Design for Sustainable Innovation BASc",
+      "subject": "design",
+      "subject_ids": [
+        "design"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-design-for-sustainable-innovation"
+    },
+    {
+      "id": "digital-futures-artificial-intelligence-and-society-basc",
+      "name": "Digital Futures, Artificial Intelligence and Society BASc",
+      "subject": "ai",
+      "subject_ids": [
+        "ai",
+        "society-culture"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-digital-futures-artificial-intelligence-society"
+    },
+    {
+      "id": "discrete-mathematics-bsc",
+      "name": "Discrete Mathematics BSc",
+      "subject": "computing",
+      "subject_ids": [
+        "computing",
+        "mathematics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-discrete-mathematics"
+    },
+    {
+      "id": "discrete-mathematics-meng",
+      "name": "Discrete Mathematics MEng",
+      "subject": "computing",
+      "subject_ids": [
+        "computing",
+        "mathematics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-discrete-mathematics"
+    },
+    {
+      "id": "early-childhood-topup-ba",
+      "name": "Early Childhood (top-up) BA",
+      "subject": "childhood-studies",
+      "subject_ids": [
+        "childhood-studies",
+        "lifelong-learning"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-early-childhood-top-up"
+    },
+    {
+      "id": "economic-studies-and-global-sustainable-development-basc",
+      "name": "Economic Studies and Global Sustainable Development BASc",
+      "subject": "economics",
+      "subject_ids": [
+        "economics",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-economic-studies-global-sustainable-development"
+    },
+    {
+      "id": "economics-and-management-bsc",
+      "name": "Economics and Management BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business",
+        "economics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-economics-management"
     },
     {
       "id": "economics-bsc",
       "name": "Economics BSc",
       "subject": "economics",
+      "subject_ids": [
+        "economics"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-economics"
+    },
+    {
+      "id": "economics-politics-and-international-studies-bscba",
+      "name": "Economics, Politics and International Studies BSc/BA",
+      "subject": "economics",
+      "subject_ids": [
+        "economics",
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-bsc-economics-politics-international-studies"
+    },
+    {
+      "id": "economics-psychology-and-philosophy-epp-babsc",
+      "name": "Economics, Psychology and Philosophy (EPP) BA/BSc",
+      "subject": "economics",
+      "subject_ids": [
+        "economics",
+        "philosophy",
+        "psychology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-bsc-economics-psychology-philosophy"
+    },
+    {
+      "id": "education-ba",
+      "name": "Education BA",
+      "subject": "education",
+      "subject_ids": [
+        "education"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-education"
+    },
+    {
+      "id": "education-studies-and-global-sustainable-development-basc",
+      "name": "Education Studies and Global Sustainable Development BASc",
+      "subject": "education",
+      "subject_ids": [
+        "education",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-education-studies-global-sustainable-development"
+    },
+    {
+      "id": "electrical-and-electronic-engineering-beng",
+      "name": "Electrical and Electronic Engineering BEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-electrical-electronic-engineering"
+    },
+    {
+      "id": "electrical-and-electronic-engineering-meng",
+      "name": "Electrical and Electronic Engineering MEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-electrical-electronic-engineering"
     },
     {
       "id": "engineering-beng",
       "name": "Engineering BEng",
       "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-engineering"
+    },
+    {
+      "id": "engineering-business-management-beng",
+      "name": "Engineering Business Management BEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-engineering-business-management"
+    },
+    {
+      "id": "engineering-meng",
+      "name": "Engineering MEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-engineering"
+    },
+    {
+      "id": "english-and-classical-civilisation-ba",
+      "name": "English and Classical Civilisation BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics",
+        "literature"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-classical-civilisation"
+    },
+    {
+      "id": "english-and-cultural-studies-parttime-ba",
+      "name": "English and Cultural Studies part-time BA",
+      "subject": "literature",
+      "subject_ids": [
+        "literature"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-cultural-studies-part-time"
+    },
+    {
+      "id": "english-and-french-ba",
+      "name": "English and French BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "literature"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-french"
+    },
+    {
+      "id": "english-and-german-ba",
+      "name": "English and German BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "literature"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-german"
+    },
+    {
+      "id": "english-and-hispanic-studies-ba",
+      "name": "English and Hispanic Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "literature"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-hispanic-studies"
+    },
+    {
+      "id": "english-and-history-ba",
+      "name": "English and History BA",
+      "subject": "history",
+      "subject_ids": [
+        "history",
+        "literature"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-history"
+    },
+    {
+      "id": "english-and-italian-ba",
+      "name": "English and Italian BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "literature"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-italian"
+    },
+    {
+      "id": "english-and-theatre-studies-ba",
+      "name": "English and Theatre Studies BA",
+      "subject": "literature",
+      "subject_ids": [
+        "literature",
+        "theatre"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-theatre-studies"
+    },
+    {
+      "id": "english-language-and-linguistics-ba",
+      "name": "English Language and Linguistics BA",
+      "subject": "linguistics",
+      "subject_ids": [
+        "linguistics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-language-linguistics"
+    },
+    {
+      "id": "english-literature-and-creative-writing-ba",
+      "name": "English Literature and Creative Writing BA",
+      "subject": "creative-writing",
+      "subject_ids": [
+        "creative-writing",
+        "literature"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-literature-creative-writing"
     },
     {
       "id": "english-literature-ba",
       "name": "English Literature BA",
       "subject": "literature",
+      "subject_ids": [
+        "literature"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-literature"
+    },
+    {
+      "id": "film-and-literature-ba",
+      "name": "Film and Literature BA",
+      "subject": "film",
+      "subject_ids": [
+        "film",
+        "literature"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-film-literature"
+    },
+    {
+      "id": "film-studies-ba",
+      "name": "Film Studies BA",
+      "subject": "film",
+      "subject_ids": [
+        "film"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-film-studies"
+    },
+    {
+      "id": "french-and-economics-ba",
+      "name": "French and Economics BA",
+      "subject": "economics",
+      "subject_ids": [
+        "economics",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-french-economics"
+    },
+    {
+      "id": "french-and-history-ba",
+      "name": "French and History BA",
+      "subject": "history",
+      "subject_ids": [
+        "history",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-french-history"
+    },
+    {
+      "id": "french-and-theatre-studies-ba",
+      "name": "French and Theatre Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "theatre"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-french-theatre-studies"
+    },
+    {
+      "id": "french-studies-ba",
+      "name": "French Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-french-studies"
+    },
+    {
+      "id": "french-studies-parttime-ba",
+      "name": "French Studies part-time BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-french-studies-part-time"
+    },
+    {
+      "id": "german-and-economics-ba",
+      "name": "German and Economics BA",
+      "subject": "economics",
+      "subject_ids": [
+        "economics",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-german-economics"
+    },
+    {
+      "id": "german-and-history-ba",
+      "name": "German and History BA",
+      "subject": "history",
+      "subject_ids": [
+        "history",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-german-history"
+    },
+    {
+      "id": "german-and-theatre-studies-ba",
+      "name": "German and Theatre Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "theatre"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-german-theatre"
+    },
+    {
+      "id": "german-studies-ba",
+      "name": "German Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-german-studies"
+    },
+    {
+      "id": "global-politics-with-integrated-year-abroad-in-brussels-ba",
+      "name": "Global Politics with Integrated Year Abroad in Brussels BA",
+      "subject": "politics",
+      "subject_ids": [
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-global-politics"
+    },
+    {
+      "id": "global-sustainable-development-and-business-studies-basc",
+      "name": "Global Sustainable Development and Business Studies BASc",
+      "subject": "business",
+      "subject_ids": [
+        "business",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-global-sustainable-development-business-studies"
+    },
+    {
+      "id": "global-sustainable-development-basc",
+      "name": "Global Sustainable Development BASc",
+      "subject": "sustainability",
+      "subject_ids": [
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-global-sustainable-development"
+    },
+    {
+      "id": "health-and-medical-sciences-bsc",
+      "name": "Health and Medical Sciences BSc",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "health-sciences",
+        "medicine"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-health-medical-sciences"
+    },
+    {
+      "id": "hispanic-studies-and-economics-ba",
+      "name": "Hispanic Studies and Economics BA",
+      "subject": "economics",
+      "subject_ids": [
+        "economics",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-hispanic-studies-economics"
+    },
+    {
+      "id": "hispanic-studies-and-global-sustainable-development-basc",
+      "name": "Hispanic Studies and Global Sustainable Development BASc",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-hispanic-studies-global-sustainable-development"
+    },
+    {
+      "id": "hispanic-studies-and-history-ba",
+      "name": "Hispanic Studies and History BA",
+      "subject": "history",
+      "subject_ids": [
+        "history",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-hispanic-studies-history"
+    },
+    {
+      "id": "hispanic-studies-and-theatre-studies-ba",
+      "name": "Hispanic Studies and Theatre Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "theatre"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-hispanic-studies-theatre-studies"
+    },
+    {
+      "id": "hispanic-studies-ba",
+      "name": "Hispanic Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-hispanic-studies"
+    },
+    {
+      "id": "history-and-global-sustainable-development-basc",
+      "name": "History and Global Sustainable Development BASc",
+      "subject": "history",
+      "subject_ids": [
+        "history",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-history-global-sustainable-development"
+    },
+    {
+      "id": "history-and-italian-ba",
+      "name": "History and Italian BA",
+      "subject": "history",
+      "subject_ids": [
+        "history",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-history-italian"
+    },
+    {
+      "id": "history-and-philosophy-ba",
+      "name": "History and Philosophy BA",
+      "subject": "history",
+      "subject_ids": [
+        "history",
+        "philosophy"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-history-philosophy"
+    },
+    {
+      "id": "history-and-politics-ba",
+      "name": "History and Politics BA",
+      "subject": "history",
+      "subject_ids": [
+        "history",
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-history-politics"
+    },
+    {
+      "id": "history-and-sociology-ba",
+      "name": "History and Sociology BA",
+      "subject": "history",
+      "subject_ids": [
+        "history",
+        "sociology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-history-sociology"
     },
     {
       "id": "history-ba",
       "name": "History BA",
       "subject": "history",
+      "subject_ids": [
+        "history"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-history"
+    },
+    {
+      "id": "history-of-art-ba",
+      "name": "History of Art BA",
+      "subject": "art-history",
+      "subject_ids": [
+        "art-history",
+        "history"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-history-art"
+    },
+    {
+      "id": "history-of-art-with-italian-ba",
+      "name": "History of Art with Italian BA",
+      "subject": "art-history",
+      "subject_ids": [
+        "art-history",
+        "history",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-history-art-italian"
+    },
+    {
+      "id": "history-parttime-ba",
+      "name": "History part-time BA",
+      "subject": "history",
+      "subject_ids": [
+        "history"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-history-part-time"
+    },
+    {
+      "id": "human-social-and-political-sciences-ba",
+      "name": "Human, Social and Political Sciences BA",
+      "subject": "education",
+      "subject_ids": [
+        "education",
+        "philosophy",
+        "politics",
+        "society-culture",
+        "sociology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-human-social-political-sciences"
+    },
+    {
+      "id": "integrated-natural-sciences-bsc",
+      "name": "Integrated Natural Sciences BSc",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "chemistry",
+        "natural-sciences",
+        "physics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-integrated-natural-sciences"
+    },
+    {
+      "id": "integrated-natural-sciences-msci",
+      "name": "Integrated Natural Sciences MSci",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "chemistry",
+        "natural-sciences",
+        "physics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/msci-integrated-natural-sciences"
+    },
+    {
+      "id": "international-business-and-management-with-foundation-year-bsc",
+      "name": "International Business and Management (with Foundation Year) BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-international-business-management-foundation-year"
+    },
+    {
+      "id": "international-business-and-management-bsc",
+      "name": "International Business and Management BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-international-business-management"
+    },
+    {
+      "id": "international-business-and-management-with-marketing-with-foundation-year-bsc",
+      "name": "International Business and Management with Marketing (with Foundation Year) BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-international-business-management-marketing-foundation"
+    },
+    {
+      "id": "international-business-and-management-with-marketing-bsc",
+      "name": "International Business and Management with Marketing BSc",
+      "subject": "business",
+      "subject_ids": [
+        "business"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-international-business-management-marketing"
+    },
+    {
+      "id": "italian-and-classics-ba",
+      "name": "Italian and Classics BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-italian-classics"
+    },
+    {
+      "id": "italian-and-economics-ba",
+      "name": "Italian and Economics BA",
+      "subject": "economics",
+      "subject_ids": [
+        "economics",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-italian-economics"
+    },
+    {
+      "id": "italian-and-theatre-studies-ba",
+      "name": "Italian and Theatre Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "theatre"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-italian-theatre-studies"
+    },
+    {
+      "id": "italian-studies-ba",
+      "name": "Italian Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-italian-studies"
+    },
+    {
+      "id": "law-4-year-llb",
+      "name": "Law (4 Year) LLB",
+      "subject": "law",
+      "subject_ids": [
+        "law"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/llb-law-4-years"
+    },
+    {
+      "id": "law-and-sociology-ba",
+      "name": "Law and Sociology BA",
+      "subject": "law",
+      "subject_ids": [
+        "law",
+        "sociology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-law-sociology"
     },
     {
       "id": "law-llb",
       "name": "Law LLB",
       "subject": "law",
+      "subject_ids": [
+        "law"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/llb-law"
+    },
+    {
+      "id": "law-with-french-llb",
+      "name": "Law with French LLB",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "law"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/llb-law-french"
+    },
+    {
+      "id": "law-with-german-llb",
+      "name": "Law with German LLB",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "law"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/llb-law-german"
+    },
+    {
+      "id": "law-with-humanities-ba",
+      "name": "Law with Humanities BA",
+      "subject": "law",
+      "subject_ids": [
+        "law"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-law-humanities"
+    },
+    {
+      "id": "law-with-study-abroad-in-english-llb",
+      "name": "Law with Study Abroad in English LLB",
+      "subject": "law",
+      "subject_ids": [
+        "law"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/llb-law-study-abroad-english"
+    },
+    {
+      "id": "liberal-arts-and-sciences-basc",
+      "name": "Liberal Arts and Sciences BASc",
+      "subject": "liberal-arts",
+      "subject_ids": [
+        "liberal-arts"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-liberal-arts-sciences"
     },
     {
       "id": "liberal-arts-ba",
       "name": "Liberal Arts BA",
       "subject": "liberal-arts",
+      "subject_ids": [
+        "education",
+        "history",
+        "liberal-arts"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-liberal-arts"
+    },
+    {
+      "id": "life-sciences-and-global-sustainable-development-basc",
+      "name": "Life Sciences and Global Sustainable Development BASc",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-life-sciences-global-sustainable-development"
+    },
+    {
+      "id": "linguistics-with-modern-language-ba",
+      "name": "Linguistics with Modern Language BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "linguistics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-linguistics-with-modern-language-intercalated-year"
+    },
+    {
+      "id": "manufacturing-and-mechanical-engineering-beng",
+      "name": "Manufacturing and Mechanical Engineering BEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-manufacturing-mechanical-engineering"
+    },
+    {
+      "id": "manufacturing-and-mechanical-engineering-meng",
+      "name": "Manufacturing and Mechanical Engineering MEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-manufacturing-mechanical-engineering"
+    },
+    {
+      "id": "mathematics-and-philosophy-babsc",
+      "name": "Mathematics and Philosophy BA/BSc",
+      "subject": "mathematics",
+      "subject_ids": [
+        "mathematics",
+        "philosophy"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-bsc-mathematics-philosophy"
+    },
+    {
+      "id": "mathematics-and-physics-bsc",
+      "name": "Mathematics and Physics BSc",
+      "subject": "mathematics",
+      "subject_ids": [
+        "mathematics",
+        "physics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-mathematics-physics"
+    },
+    {
+      "id": "mathematics-and-physics-mmathphys",
+      "name": "Mathematics and Physics MMathPhys",
+      "subject": "mathematics",
+      "subject_ids": [
+        "mathematics",
+        "physics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mmathphys-mathematics-physics"
+    },
+    {
+      "id": "mathematics-and-statistics-bsc",
+      "name": "Mathematics and Statistics BSc",
+      "subject": "mathematics",
+      "subject_ids": [
+        "mathematics",
+        "statistics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-mathematics-statistics"
+    },
+    {
+      "id": "mathematics-and-statistics-mmathstat",
+      "name": "Mathematics and Statistics MMathStat",
+      "subject": "mathematics",
+      "subject_ids": [
+        "mathematics",
+        "statistics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mmathstat-mathematics-statistics"
     },
     {
       "id": "mathematics-bsc",
       "name": "Mathematics BSc",
       "subject": "mathematics",
+      "subject_ids": [
+        "mathematics"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-mathematics"
+    },
+    {
+      "id": "mathematics-mmath",
+      "name": "Mathematics MMath",
+      "subject": "mathematics",
+      "subject_ids": [
+        "mathematics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mmath-mathematics"
+    },
+    {
+      "id": "mechanical-engineering-beng",
+      "name": "Mechanical Engineering BEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-mechanical-engineering"
+    },
+    {
+      "id": "mechanical-engineering-meng",
+      "name": "Mechanical Engineering MEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-mechanical-engineering"
+    },
+    {
+      "id": "media-and-creative-industries-ba",
+      "name": "Media and Creative Industries BA",
+      "subject": "media",
+      "subject_ids": [
+        "media"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-media-creative"
+    },
+    {
+      "id": "modern-languages-and-economics-ba",
+      "name": "Modern Languages and Economics BA",
+      "subject": "economics",
+      "subject_ids": [
+        "economics",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-modern-languages-economics"
+    },
+    {
+      "id": "modern-languages-and-linguistics-ba",
+      "name": "Modern Languages and Linguistics BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "linguistics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-modern-languages-and-linguistics"
+    },
+    {
+      "id": "modern-languages-ba",
+      "name": "Modern Languages BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-modern-languages"
+    },
+    {
+      "id": "modern-languages-with-linguistics-ba",
+      "name": "Modern Languages with Linguistics BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "linguistics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-modern-languages-with-linguistics"
+    },
+    {
+      "id": "modern-languages-with-translation-studies-ba",
+      "name": "Modern Languages with Translation Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-modern-languages-translation-studies"
+    },
+    {
+      "id": "modern-languages-business-and-management-ba",
+      "name": "Modern Languages, Business and Management BA",
+      "subject": "business",
+      "subject_ids": [
+        "business",
+        "languages"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-modern-languages-business-management"
     },
     {
       "id": "morse-bsc",
       "name": "MORSE BSc",
       "subject": "mathematics",
+      "subject_ids": [
+        "economics",
+        "mathematics",
+        "morse",
+        "statistics"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-morse"
+    },
+    {
+      "id": "morse-mmorse",
+      "name": "MORSE MMORSE",
+      "subject": "economics",
+      "subject_ids": [
+        "economics",
+        "mathematics",
+        "morse",
+        "statistics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mmorse-morse"
+    },
+    {
+      "id": "neuroscience-bsc",
+      "name": "Neuroscience BSc",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "health-sciences"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-neuroscience"
+    },
+    {
+      "id": "neuroscience-mbio",
+      "name": "Neuroscience MBio",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "health-sciences"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mbio-neuroscience"
+    },
+    {
+      "id": "neuroscience-with-industrial-placement-mbio",
+      "name": "Neuroscience with Industrial Placement MBio",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "health-sciences"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mbio-neuroscience-industrial-placement"
+    },
+    {
+      "id": "neuroscience-with-placement-year-bsc",
+      "name": "Neuroscience with Placement Year BSc",
+      "subject": "biology",
+      "subject_ids": [
+        "biology",
+        "health-sciences"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-neuroscience-placement-year"
+    },
+    {
+      "id": "philosophy-and-global-sustainable-development-basc",
+      "name": "Philosophy and Global Sustainable Development BASc",
+      "subject": "philosophy",
+      "subject_ids": [
+        "philosophy",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-philosophy-global-sustainable-development"
+    },
+    {
+      "id": "philosophy-and-literature-ba",
+      "name": "Philosophy and Literature BA",
+      "subject": "literature",
+      "subject_ids": [
+        "literature",
+        "philosophy"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-philosophy-literature"
+    },
+    {
+      "id": "philosophy-and-politics-ba",
+      "name": "Philosophy and Politics BA",
+      "subject": "philosophy",
+      "subject_ids": [
+        "philosophy",
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-philosophy-politics"
     },
     {
       "id": "philosophy-ba",
       "name": "Philosophy BA",
       "subject": "philosophy",
+      "subject_ids": [
+        "philosophy"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-philosophy"
+    },
+    {
+      "id": "philosophy-with-psychology-ba",
+      "name": "Philosophy with Psychology BA",
+      "subject": "philosophy",
+      "subject_ids": [
+        "philosophy",
+        "psychology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-philosophy-psychology"
+    },
+    {
+      "id": "philosophy-english-literature-and-classics-ba",
+      "name": "Philosophy, English Literature and Classics BA",
+      "subject": "classics",
+      "subject_ids": [
+        "classics",
+        "literature",
+        "philosophy"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-philosophy-literature-classics"
+    },
+    {
+      "id": "philosophy-politics-and-economics-ppe-babsc",
+      "name": "Philosophy, Politics and Economics (PPE) BA/BSc",
+      "subject": "economics",
+      "subject_ids": [
+        "economics",
+        "philosophy",
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-bsc-philosophy-politics-economics"
     },
     {
       "id": "physics-bsc",
       "name": "Physics BSc",
       "subject": "physics",
+      "subject_ids": [
+        "physics"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-physics"
+    },
+    {
+      "id": "physics-mphys",
+      "name": "Physics MPhys",
+      "subject": "physics",
+      "subject_ids": [
+        "physics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mphys-physics"
+    },
+    {
+      "id": "physics-with-astrophysics-bsc",
+      "name": "Physics with Astrophysics BSc",
+      "subject": "physics",
+      "subject_ids": [
+        "physics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-physics-astrophysics"
+    },
+    {
+      "id": "physics-with-astrophysics-mphys",
+      "name": "Physics with Astrophysics MPhys",
+      "subject": "physics",
+      "subject_ids": [
+        "physics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/mphys-physics-astrophysics"
+    },
+    {
+      "id": "politics-and-international-studies-ba",
+      "name": "Politics and International Studies BA",
+      "subject": "politics",
+      "subject_ids": [
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-politics-international-studies"
+    },
+    {
+      "id": "politics-and-international-studies-with-chinese-ba",
+      "name": "Politics and International Studies with Chinese BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-politics-international-studies-chinese"
+    },
+    {
+      "id": "politics-and-sociology-ba",
+      "name": "Politics and Sociology BA",
+      "subject": "politics",
+      "subject_ids": [
+        "politics",
+        "sociology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-politics-sociology"
     },
     {
       "id": "politics-ba",
       "name": "Politics BA",
       "subject": "politics",
+      "subject_ids": [
+        "politics"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-politics"
+    },
+    {
+      "id": "politics-international-studies-and-french-ba",
+      "name": "Politics, International Studies and French BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-politics-international-studies-french"
+    },
+    {
+      "id": "politics-international-studies-and-german-ba",
+      "name": "Politics, International Studies and German BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-politics-international-studies-german"
+    },
+    {
+      "id": "politics-international-studies-and-global-sustainable-development-basc",
+      "name": "Politics, International Studies and Global Sustainable Development BASc",
+      "subject": "politics",
+      "subject_ids": [
+        "politics",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-politics-international-studies-global-sustainable-development"
+    },
+    {
+      "id": "politics-international-studies-and-hispanic-studies-ba",
+      "name": "Politics, International Studies and Hispanic Studies BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-politics-international-studies-hispanic-studies"
+    },
+    {
+      "id": "politics-international-studies-and-italian-ba",
+      "name": "Politics, International Studies and Italian BA",
+      "subject": "languages",
+      "subject_ids": [
+        "languages",
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-politics-international-studies-italian"
+    },
+    {
+      "id": "politics-philosophy-and-law-ppl-ba",
+      "name": "Politics, Philosophy and Law (PPL) BA",
+      "subject": "law",
+      "subject_ids": [
+        "law",
+        "philosophy",
+        "politics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-politics-philosophy-law"
+    },
+    {
+      "id": "professional-and-intercultural-communication-ba",
+      "name": "Professional and Intercultural Communication BA",
+      "subject": "business",
+      "subject_ids": [
+        "business",
+        "linguistics"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-professional-and-intercultural-communication-intercalated-year"
+    },
+    {
+      "id": "psychology-and-global-sustainable-development-basc",
+      "name": "Psychology and Global Sustainable Development BASc",
+      "subject": "psychology",
+      "subject_ids": [
+        "psychology",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-psychology-global-sustainable-development"
     },
     {
       "id": "psychology-bsc",
       "name": "Psychology BSc",
       "subject": "psychology",
+      "subject_ids": [
+        "psychology"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-psychology"
+    },
+    {
+      "id": "psychology-with-education-bsc",
+      "name": "Psychology with Education BSc",
+      "subject": "education",
+      "subject_ids": [
+        "education",
+        "psychology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-psychology-education"
+    },
+    {
+      "id": "psychology-with-linguistics-bsc",
+      "name": "Psychology with Linguistics BSc",
+      "subject": "linguistics",
+      "subject_ids": [
+        "linguistics",
+        "psychology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-psychology-linguistics"
+    },
+    {
+      "id": "robotics-engineering-with-artificial-intelligence-beng",
+      "name": "Robotics Engineering with Artificial Intelligence BEng",
+      "subject": "ai",
+      "subject_ids": [
+        "ai",
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-robotics-engineering-artificial-intelligence"
+    },
+    {
+      "id": "social-sciences-with-data-science-ba",
+      "name": "Social Sciences with Data Science BA",
+      "subject": "data-science",
+      "subject_ids": [
+        "data-science",
+        "economics",
+        "politics",
+        "society-culture",
+        "sociology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-social-sciences-with-data-science"
+    },
+    {
+      "id": "social-work-degree-apprenticeship-ba",
+      "name": "Social Work Degree Apprenticeship BA",
+      "subject": "lifelong-learning",
+      "subject_ids": [
+        "lifelong-learning",
+        "social-work"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-social-work"
+    },
+    {
+      "id": "sociology-and-criminology-ba",
+      "name": "Sociology and Criminology BA",
+      "subject": "society-culture",
+      "subject_ids": [
+        "society-culture",
+        "sociology"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-sociology-criminology"
+    },
+    {
+      "id": "sociology-and-global-sustainable-development-basc",
+      "name": "Sociology and Global Sustainable Development BASc",
+      "subject": "sociology",
+      "subject_ids": [
+        "sociology",
+        "sustainability"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-sociology-global-sustainable-development"
     },
     {
       "id": "sociology-ba",
       "name": "Sociology BA",
       "subject": "sociology",
+      "subject_ids": [
+        "society-culture",
+        "sociology"
+      ],
       "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-sociology"
+    },
+    {
+      "id": "systems-engineering-beng",
+      "name": "Systems Engineering BEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-systems-engineering"
+    },
+    {
+      "id": "systems-engineering-meng",
+      "name": "Systems Engineering MEng",
+      "subject": "engineering",
+      "subject_ids": [
+        "engineering"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/meng-systems-engineering"
+    },
+    {
+      "id": "theatre-and-performance-studies-and-global-sustainable-development-basc",
+      "name": "Theatre and Performance Studies and Global Sustainable Development BASc",
+      "subject": "sustainability",
+      "subject_ids": [
+        "sustainability",
+        "theatre"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/basc-theatre-performance-studies-global-sustainable-development"
+    },
+    {
+      "id": "theatre-and-performance-studies-ba",
+      "name": "Theatre and Performance Studies BA",
+      "subject": "theatre",
+      "subject_ids": [
+        "theatre"
+      ],
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-theatre-performance-studies"
     }
   ]
 }

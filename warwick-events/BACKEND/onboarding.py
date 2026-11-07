@@ -50,12 +50,26 @@ def profile_response(profile):
             for i in profile.interest_ids if i in INTEREST_CATEGORIES})}
 
 
+def course_subjects(course_id):
+    course = COURSES.get(course_id, {})
+    return course.get('subject_ids', [course['subject']] if course.get('subject') else [])
+
+
+def resolve_society_name(name, societies=None):
+    """Resolve only explicit aliases; no fuzzy guesses for ambiguous organisers."""
+    normalise = lambda value: ' '.join(value.casefold().split())
+    matches = {society['id'] for society in (societies if societies is not None else SOCIETIES.values())
+               if normalise(name) in {normalise(alias) for alias in
+                                      [society['name'], *society.get('event_name_aliases', [])]}}
+    return next(iter(matches)) if len(matches) == 1 else None
+
+
 def matching_societies(profile):
-    course = COURSES.get(profile.course_id, {})
+    subjects = set(course_subjects(profile.course_id))
     matches = []
     for society in SOCIETIES.values():
         interests = sorted(set(profile.interest_ids) & set(society['interest_ids']))
-        course_match = course.get('subject') in society['course_subjects']
+        course_match = bool(subjects.intersection(society['course_subjects']))
         score = 2 * len(interests) + int(course_match)
         if score:
             matches.append({**society, 'matching_interest_ids': interests,
@@ -73,6 +87,26 @@ def register_onboarding(router, identity, rows, write, lock):
     @router.get('/profile')
     def get_profile(user=Depends(student)):
         return profile_response(read_profile(rows, user['email']))
+
+    @router.get('/recommendation-context')
+    def recommendation_context(user=Depends(student)):
+        # Deliberately construct a whitelist: demographic fields never enter this interface.
+        profile = read_profile(rows, user['email'])
+        found = rows('SELECT body FROM profiles WHERE email=?', (user['email'],))
+        plans = json.loads(found[0][0]) if found else {}
+        return {'version': 1, 'course_id': profile.course_id,
+                'course_subject_ids': course_subjects(profile.course_id),
+                'graduation_year': profile.graduation_year,
+                'interest_ids': profile.interest_ids,
+                'event_categories': profile_response(profile)['event_categories'],
+                'followed_society_ids': profile.followed_society_ids,
+                'followed_societies': [
+                    {'id': society['id'], 'name': society['name'],
+                     'event_name_aliases': society.get('event_name_aliases', [society['name']])}
+                    for society_id in profile.followed_society_ids
+                    if (society := SOCIETIES.get(society_id)) is not None],
+                'liked_event_ids': plans.get('liked', []),
+                'signed_event_ids': plans.get('signed', [])}
 
     @router.put('/profile')
     def update_profile(payload: ProfileUpdate, user=Depends(student)):
@@ -106,7 +140,7 @@ def register_onboarding(router, identity, rows, write, lock):
         year = datetime.now(ZoneInfo('Europe/London')).year
         return {**CATALOGS['courses'], 'graduation_years': list(range(year, year + 11)),
                 'items': CATALOGS['courses']['items'] + [{'id': 'not-listed', 'name': 'Course not listed',
-                                                        'subject': None, 'source_url': None}]}
+                                                        'subject': None, 'subject_ids': [], 'source_url': None}]}
 
     @router.get('/interests')
     def interests(user=Depends(identity)):

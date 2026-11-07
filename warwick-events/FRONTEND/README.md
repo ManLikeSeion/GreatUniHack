@@ -71,9 +71,8 @@ and reload resumes at the last saved step. Selections not yet saved by Continue
 are held in page memory only. Choosing zero interests and following no societies
 are both valid. Course and expected graduation year are required to finish.
 
-The course picker contains 18 real courses plus Course not listed. The society
-selection contains 26 real societies. These are curated snapshots, not complete
-university directories. `BACKEND/catalogs/` records official URLs, retrieval dates
+The course picker contains all 195 visible undergraduate records in the current official snapshot, plus Course not listed. The society
+selection contains 26 real societies. Courses cover the visible official undergraduate feed; societies remain a curated selection, not a complete directory. `BACKEND/catalogs/` records official URLs, retrieval dates
 and version metadata. Course entries come from Warwick's public course-search
 feed; society names and links come from Warwick SU's society directory. Short
 descriptions are omitted rather than invented. Interests and course-subject
@@ -104,3 +103,24 @@ python warwick-events/FRONTEND/tests/onboarding_smoke.py
 
 This checks first login, validation, Back, selections, refresh/resume, following,
 completion, returning-user behaviour and settings editing in a mobile viewport.
+
+
+### Searchable course dropdown and future ranking data
+
+Course selection is one accessible combobox. Open it to browse all courses in
+alphabetical order; type to filter the same list. Matching ignores case and extra
+spaces; `maths` and `stats` are recognised as mathematics and statistics. Arrow
+keys move through results and Enter selects. Escape restores the last selected
+course. Editing the text clears the selected ID until you choose another valid
+result; arbitrary text cannot silently save the previous course. Course not listed
+is a separate fallback action. Saved course IDs remain compatible with old profiles.
+
+Joint degrees carry multiple subject IDs, so society discovery can match either
+subject. The existing event stack remains chronological. The student-only
+`GET /api/recommendation-context` is available to a future ranking implementation;
+it returns explicit preference and saved-plan signals, never ethnicity or cultural
+consent. No new event recommendation algorithm, ranking scores or AI calls are added.
+
+The optional browser smoke test now covers the combined picker, keyboard and touch
+selection, no results, fallback, preserving a joint degree and the full onboarding
+journey. Run the same command above.

@@ -133,7 +133,7 @@ plans remain in `profiles`; updating either cannot overwrite the other.
 
 - `GET /api/profile`: current student's profile, defaults if never saved.
 - `PUT /api/profile`: partial preference update; all omitted fields are preserved.
-- `GET /api/courses`: curated course snapshot plus Course not listed and valid years.
+- `GET /api/courses`: full visible undergraduate snapshot plus Course not listed and valid years.
 - `GET /api/interests`: grouped interest snapshot and broad event-category mappings.
 - `GET /api/societies`: curated society snapshot with official links and matching tags.
 - `GET /api/societies/matches`: positive deterministic matches for the saved profile.
@@ -141,7 +141,7 @@ plans remain in `profiles`; updating either cannot overwrite the other.
 All endpoints require the existing bearer session. Profile and matches require
 student role; exec/external accounts get 403. The profile has `course_id`,
 `graduation_year`, optional `ethnicity`, `cultural_recommendations_opt_in`,
-`interest_ids`, `followed_society_ids`, `step` (1–4), and `onboarding_completed`.
+`interest_ids`, `followed_society_ids`, `step` (1â€“4), and `onboarding_completed`.
 Responses also derive `event_categories` from explicit interests. Identity comes
 from the session, never a submitted user ID. Unknown fields and catalog IDs return
 422. Graduation years range from the current London year through ten years ahead.
@@ -162,3 +162,62 @@ Refresh snapshots deliberately; do not silently rename existing IDs.
 
 The existing shared Event model and event routes are unchanged. This feature is
 for a local prototype; demo-email sessions do not provide real identity verification.
+
+
+### Course catalog refresh
+
+From `warwick-events`:
+
+```powershell
+python -m BACKEND.refresh_courses
+```
+
+Downloads only the official Warwick undergraduate course feed, excludes hidden
+records, validates names/IDs/official links, deduplicates by course URL, sorts
+alphabetically, and atomically replaces the snapshot after validation. Existing
+IDs, source URLs and legacy `subject` values survive refresh. `subject_ids` holds
+multiple explicit subjects for joint degrees; a course contributes at most one
+society-match point. Official labels and literal title phrases are mapped in
+`refresh_courses.py`, not guessed by AI. Unrecognised subject labels and
+unclassified IDs are reported for review. Malformed visible records, missing old
+IDs, duplicate IDs and network failures leave the snapshot unchanged.
+
+Restart FastAPI after refreshing: catalogs load at import. `--feed-file PATH`
+allows offline refresh/testing; `--output PATH` chooses another snapshot. No
+network calls occur during onboarding. Current snapshot: 195 visible undergraduate
+courses, including published joint/degree variants, with no unclassified records.
+Postgraduate programs are not included.
+
+### Future recommendation interface
+
+Student-only `GET /api/recommendation-context` returns this versioned structure:
+
+```json
+{
+  "version": 1,
+  "course_id": "mathematics-and-physics-bsc",
+  "course_subject_ids": ["mathematics", "physics"],
+  "graduation_year": 2028,
+  "interest_ids": ["programming"],
+  "event_categories": ["academic"],
+  "followed_society_ids": ["computing"],
+  "followed_societies": [
+    {"id": "computing", "name": "Computing", "event_name_aliases": ["Computing", "Warwick Computing Society", "University of Warwick Computing Society"]}
+  ],
+  "liked_event_ids": [],
+  "signed_event_ids": []
+}
+```
+
+Signals are read from the current profile and existing plans. There is no second
+copy of preferences. Missing profiles/plans return null course/year and empty
+lists; Course not listed has no subject IDs. Ethnicity and cultural consent are
+explicitly excluded. No inferred interests, friends, ranking scores or LLM calls
+are introduced. Use GET /api/interests for the full interest-to-category mapping.
+Saved event IDs retain their current format, including imported IDs.
+
+`resolve_society_name` in onboarding.py resolves only exact normalised official
+names and explicit aliases in the society snapshot. Case and repeated whitespace
+are ignored. Ambiguous or unmatched names return null. This helper prepares a
+future join to events; it does not rewrite events or change feed ordering.
+The shared Event schema remains unchanged.

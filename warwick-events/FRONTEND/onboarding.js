@@ -30,25 +30,11 @@ window.StudentOnboarding = (() => {
     profile.ethnicity = el('ob-ethnicity-choice').value === 'describe' ? el('ob-ethnicity').value.trim() || null : null;
     profile.cultural_recommendations_opt_in = el('ob-consent').checked;
   }
-  function renderCourses(search = '') {
-    const select = el('ob-course'); select.replaceChildren();
-    const empty = node('option', 'Choose a course'); empty.value = ''; select.append(empty);
-    for (const course of courses.items) {
-      if (course.id !== profile.course_id && course.id !== 'not-listed' && !course.name.toLowerCase().includes(search.toLowerCase())) continue;
-      const option = node('option', course.name); option.value = course.id;
-      option.selected = profile.course_id === course.id; select.append(option);
-    }
-  }
   function about(container) {
     container.append(node('p', 'A few details to help you find your corner of campus.'));
-    const search = document.createElement('input'); search.type = 'search'; search.id = 'ob-course-search'; search.placeholder = 'Search courses';
-    const select = document.createElement('select'); select.id = 'ob-course';
-    container.append(label('Search Warwick courses', search.id), search, label('Your course', select.id), select);
-    search.addEventListener('input', () => { profile.course_id = select.value || null; renderCourses(search.value); });
-    select.addEventListener('change', () => profile.course_id = select.value || null);
-    renderCourses();
-    container.append(node('p', 'A curated selection from Warwick’s directory. Choose “Course not listed” if yours is missing.', 'field-note'));
-    const source = node('a', 'Browse Warwick’s full course directory'); source.href = 'https://warwick.ac.uk/study/undergraduate/courses/'; source.target = '_blank'; source.rel = 'noopener noreferrer'; container.append(source);
+    CoursePicker(container, courses.items, profile.course_id, id => profile.course_id = id);
+    container.append(node('p', 'All visible undergraduate courses from Warwick?s published directory. Type to narrow the list, or choose ?Course not listed?.', 'field-note'));
+    const source = node('a', 'Browse Warwick?s full course directory'); source.href = 'https://warwick.ac.uk/study/undergraduate/courses/'; source.target = '_blank'; source.rel = 'noopener noreferrer'; container.append(source);
     const year = document.createElement('select'); year.id = 'ob-year';
     const blank = node('option', 'Choose a year'); blank.value = ''; year.append(blank);
     for (const value of courses.graduation_years) { const option = node('option', String(value)); option.value = value; option.selected = profile.graduation_year === value; year.append(option); }
