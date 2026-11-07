@@ -106,7 +106,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertEqual(len(self.extract_calls), 2)
 
-    def test_plans_clashes_grounding_and_history(self):
+    def test_plans_clashes_grounding_without_chat_persistence(self):
         first = self.publish().json()
         second = self.publish(event={**self.event, 'title': 'badminton', 'time': '19:00'}).json()
         self.assertEqual(self.client.put('/api/plans', headers=self.student,
@@ -121,7 +121,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual([item['id'] for item in result['events']], [first['id']])
         state = self.new_client().get('/api/state', headers=self.student).json()
         self.assertEqual(state['plans']['liked'], [first['id']])
-        self.assertEqual(len(state['history']), 2)
+        self.assertEqual(state['history'], [])
         self.assertEqual(self.client.get('/api/state', headers=self.exec).json()['plans']['liked'], [])
 
     def test_logout_revokes_token(self):

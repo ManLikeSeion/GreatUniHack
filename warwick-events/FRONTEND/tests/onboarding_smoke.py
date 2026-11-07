@@ -7,6 +7,9 @@ import os
 import sys
 import tempfile
 import threading
+from datetime import datetime, timezone
+from types import SimpleNamespace
+from unittest.mock import patch
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -18,6 +21,7 @@ from playwright.sync_api import sync_playwright, expect
 ROOT = Path(__file__).resolve().parents[3]
 sys.path[:0] = [str(ROOT), str(ROOT / 'warwick-events')]
 from BACKEND.workflow import create_workflow
+from shared.schema import Event
 
 
 def main():
@@ -32,7 +36,15 @@ def main():
     try:
         with tempfile.TemporaryDirectory() as directory, sync_playwright() as playwright:
             app = FastAPI()
-            app.include_router(create_workflow(Path(directory) / 'test.sqlite3'), prefix='/api')
+            events = [Event(id='trip', title='Computing coach trip', society='Computing',
+                            category='social', start=datetime(2090, 1, 1, 18, tzinfo=timezone.utc),
+                            description='Free pizza and free entry. Travel by coach.',
+                            location='Campus', confidence=1, needs_review=False),
+                      Event(id='cinema', title='Ticketed cinema', society='Warwick Student Cinema',
+                            category='arts', start=datetime(2090, 1, 2, 18, tzinfo=timezone.utc),
+                            description='Tickets cost five pounds.', location='Campus',
+                            confidence=1, needs_review=False)]
+            app.include_router(create_workflow(Path(directory) / 'test.sqlite3', event_provider=lambda: events), prefix='/api')
             with TestClient(app) as api:
                 edge = Path(os.environ.get('PROGRAMFILES(X86)', 'C:/Program Files (x86)')) / 'Microsoft/Edge/Application/msedge.exe'
                 browser = playwright.chromium.launch(headless=True, **({'executable_path': str(edge)} if edge.exists() else {}))
@@ -45,8 +57,17 @@ def main():
                     if path == '/api/updates':
                         route.abort()
                         return
-                    response = api.request(request.method, path, headers=request.headers,
-                                           content=request.post_data or None)
+                    if path == '/api/assistant':
+                        tool = SimpleNamespace(type='tool_use', name='search_events', input={
+                            'category': None, 'date': None, 'free_food': False,
+                            'no_clashes': False, 'keywords': ['travel', 'coach', 'trip']})
+                        with patch.dict(os.environ, {'ANTHROPIC_API_KEY': 'test-only', 'ANTHROPIC_MODEL': 'test-only'}), patch('anthropic.Anthropic') as provider:
+                            provider.return_value.messages.create.return_value = SimpleNamespace(content=[tool])
+                            response = api.request(request.method, path, headers=request.headers, content=request.post_data or None)
+                            assert provider.return_value.messages.create.call_args.kwargs['tool_choice'] == {'type': 'auto'}
+                    else:
+                        response = api.request(request.method, path, headers=request.headers,
+                                               content=request.post_data or None)
                     route.fulfill(status=response.status_code, content_type='application/json', body=response.content)
                 page.route('**/api/**', intercept)
                 page.goto(f'http://127.0.0.1:{server.server_port}')
@@ -54,6 +75,7 @@ def main():
                 page.locator('#email').fill('onboarding-smoke@example.com')
                 page.locator('#login-form button[type=submit]').click()
                 expect(page.locator('#ob-heading')).to_have_text('About you')
+                expect(page.locator('#ob-progress')).to_have_css('background-color', 'rgb(135, 83, 181)')
                 page.locator('#ob-next').click()
                 expect(page.locator('#ob-error')).to_contain_text('Choose your course')
                 picker = page.get_by_role('combobox', name='Your Warwick course')
@@ -117,13 +139,34 @@ def main():
                 page.reload()
                 expect(page.locator('#app-view')).to_be_visible()
                 expect(page.locator('#onboarding-view')).to_be_hidden()
+                expect(page.locator('.brand-name')).to_contain_text('func')
+                expect(page.locator('#discover-feed .feed-event')).to_have_count(2)
+                trip = page.locator('#discover-feed .feed-event[data-event-id="imported:trip"]')
+                cinema = page.locator('#discover-feed .feed-event[data-event-id="imported:cinema"]')
+                expect(trip.locator('.food-badge')).to_contain_text('free food')
+                expect(trip.locator('.entry-badge')).to_contain_text('free entry')
+                expect(cinema.locator('.food-badge')).to_have_count(0)
+                expect(cinema.locator('.entry-badge')).to_have_count(0)
+                trip.get_by_role('button', name='reserve my place').click()
+                expect(trip.get_by_role('button', name='place reserved')).to_have_attribute('aria-pressed', 'true')
+                expect(trip.locator('.reserved-count')).to_contain_text('WK-')
+                page.locator('#discover-search').fill('travel')
+                expect(trip).to_be_visible()
+                expect(cinema).to_be_hidden()
+                page.locator('#discover-search').fill('')
+                page.locator('.assistant-box > summary').click()
+                page.locator('#chat-message').fill('travel')
+                page.locator('#chat-form button[type=submit]').click()
+                expect(page.locator('#chat-status')).to_have_text('AI search')
+                expect(page.locator('#chat-results article')).to_have_count(1)
+                expect(page.locator('#chat-results')).to_contain_text('Computing coach trip')
                 page.locator('[data-tab=settings]').click()
                 page.locator('#edit-student-profile').click()
                 expect(page.locator('#ob-heading')).to_have_text('About you')
                 if errors:
                     raise AssertionError(errors)
                 browser.close()
-                print('PASS: combined course picker (all courses, sorting, math filtering, touch, keyboard, Escape, fallback), saved joint degree, onboarding/resume, follow, returning student, settings edit; no browser errors')
+                print('PASS: onboarding/course picker, purple branding, benefit badges, reservations, Discover relevance, AI companion integration (mock provider), returning student and profile editing; no browser errors')
     finally:
         server.shutdown()
         server.server_close()

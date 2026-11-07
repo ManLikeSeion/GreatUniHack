@@ -1,4 +1,4 @@
-# common: campus events prototype
+# func.on: campus events prototype
 
 ## run locally (windows powershell)
 
@@ -28,7 +28,7 @@ Open http://localhost:3000. Stop any older frontend server first with Ctrl+C. Po
 4. Correct the date, time, duration, location and description. Confirm the human-review checkbox, then approve and publish. Required fields, future dates, clock-change ambiguity and duplicates are checked on the server. Duplicate publication is blocked.
 5. Open another browser tab and sign in as a student. Published events appear in Discover and the calendar. Likes and sign-ups persist in SQLite per email. Live updates use authenticated server-sent events with five-second polling as a fallback.
 6. Open ask your campus companion on Discover. Try "free food tomorrow without clashes". With AI configured, natural language becomes validated search filters. Results are selected by code from published database events and checked against your liked/signed-up plans. Without AI, basic search supports category names, today, tomorrow, ISO dates, free food and no-clash requests.
-7. Set interests in settings. Recommendations prioritise those categories. Recent chat history and saved plans survive server restarts.
+7. Set interests in settings. Recommendations prioritise those categories. Saved plans survive server restarts. Companion searches are independent: chat history is not stored, and only the latest question and response remain visible until refresh.
 
 ## roles and boundaries
 
@@ -124,3 +124,27 @@ consent. No new event recommendation algorithm, ranking scores or AI calls are a
 The optional browser smoke test now covers the combined picker, keyboard and touch
 selection, no results, fallback, preserving a joint degree and the full onboarding
 journey. Run the same command above.
+
+Search supports concept expansion (for example travel includes buses, coaches and away days) and relevance ranking in both Discover and the companion. Discover uses deterministic matching; the companion also uses AI keyword extraction when configured. Orange badges indicate free food and blue ticket badges indicate free admission. Unknown prices are not treated as free; inferred langar meals are labelled likely free food.
+
+
+## Integrated demo build
+
+The student onboarding flow, 195-course searchable picker, society preferences,
+func.on purple branding, relevance search, benefit badges and demo reservations
+now run together. New students finish onboarding before Discover; returning
+students can edit their profile in Settings. Exec and external flows remain intact.
+Onboarding components share the purple theme; free-food and free-entry badges
+retain their distinct orange/blue meanings. Unknown prices do not imply free entry.
+
+Companion searches use only the current question and are not stored as chat history.
+Existing legacy conversation rows are left untouched rather than deleted on startup.
+The model uses automatic tool selection and one retry if filters are missing;
+returned filters are validated and results must come from the database. Discover
+uses Seion's deterministic topical relevance search. Onboarding data remains
+available through recommendation-context but does not introduce personalised stack
+ranking. Reserve my place records demo intent, not an official society booking.
+
+The browser smoke test covers the combined course picker/onboarding, purple theme,
+free-food/free-entry badges, reservations, Discover relevance and companion results.
+Its model provider is mocked, so it makes no paid calls.

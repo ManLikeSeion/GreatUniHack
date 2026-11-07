@@ -1,4 +1,5 @@
 let workflowConnected = false;
+let discoverConcepts = {};
 const $ = (id) => document.getElementById(id);
 let month = new Date();
 month.setDate(1);
@@ -39,6 +40,11 @@ async function changePlan(event, kind) {
  try { await saveWorkflowPlans(next); } catch (error) { savingPlan = false; notify(error.message); return; }
  preferences = next;
  savingPlan = false;
+ if (kind === 'signed') {
+  const added = next.signed.includes(id);
+  event.reserved = Math.max(0, (Number(event.reserved) || 0) + (added ? 1 : -1));
+  notify(added ? 'place reserved. your reference is ' + reservationCode(event) + '. show it at the door.' : 'reservation cancelled.');
+ }
  renderCalendar();
  // Update in place so liking does not reset the scroll position.
  document.querySelectorAll('[data-event-id]').forEach(row => {
@@ -52,10 +58,19 @@ async function changePlan(event, kind) {
  updateFeedEmpty();
 }
 function notify(message) { $('toast').textContent=message; $('toast').hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(() => $('toast').hidden=true,3500); }
+function reservationCode(event) {
+ const text = eventId(event) + '|' + $('account-email').value.toLowerCase(); let h = 5381;
+ for (const ch of text) h = ((h * 33) ^ ch.charCodeAt(0)) >>> 0;
+ return 'WK-' + h.toString(36).toUpperCase().padStart(6, '0').slice(-6);
+}
 function planButtons(event) {
- return [['liked','like + save','liked'],['signed','sign up','signed up']].map(([kind,label,active]) => {
+ const buttons = [['liked','like + save','liked'],['signed','reserve my place','place reserved']].map(([kind,label,active]) => {
   const button = document.createElement('button'); const on = preferences[kind].includes(eventId(event)); button.className='plan-button' + (on ? ' is-on' : ''); button.textContent = (kind === 'liked' ? (on ? '\u2665 ' : '\u2661 ') : (on ? '\u2713 ' : '+ ')) + (on ? active : label); button.setAttribute('aria-pressed',String(on)); button.addEventListener('click',()=>changePlan(event,kind)); return button;
  });
+ const count = document.createElement('span'); count.className = 'reserved-count';
+ const n = Number(event.reserved) || 0, mine = preferences.signed.includes(eventId(event));
+ count.textContent = (mine ? 'your ref ' + reservationCode(event) + ' \u00b7 ' : '') + (n ? n + (n === 1 ? ' place reserved' : ' places reserved') : 'be the first to reserve');
+ return [...buttons, count];
 }
 function minutes(event) { const [hours, mins] = event.time.split(':').map(Number); const [y,m,d]=event.date.split('-').map(Number); return new Date(y,m-1,d,hours,mins).getTime()/60000; }
 function duration(event) { return Number(event.duration) > 0 ? Number(event.duration) : 60; }
@@ -116,8 +131,14 @@ function eventCard(event, feed=false) {
   badges.append(badge);
  }
  if (event.freeFood === true) {
-  const badge = document.createElement('span'); badge.className = 'food-badge'; badge.title = 'free food available';
+  const badge = document.createElement('span'); badge.className = 'food-badge'; badge.title = event.freeFoodReason || 'free food available';
   badge.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3v5m3-5v5M1 3v5a3 3 0 0 0 6 0M4 11v10M17 3c-4 3-4 9 0 9h3M20 3v18"/></svg><span>free food</span>';
+  badges.append(badge);
+  if (event.likelyFreeFood) badge.querySelector('span').textContent = 'likely free food';
+ }
+ if (event.freeEntry === true) {
+  const badge = document.createElement('span'); badge.className = 'entry-badge'; badge.title = event.freeEntryReason || 'free admission';
+  badge.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4Z"/><path d="M15 7v2m0 3v1m0 3v1"/></svg><span>free entry</span>';
   badges.append(badge);
  }
  if (event.official === true) {
@@ -130,12 +151,32 @@ function eventCard(event, feed=false) {
   const details=document.createElement('div');details.className='feed-details';
   const heading=document.createElement('h2');heading.textContent='the little details.';
   const place=document.createElement('p');place.textContent=event.location;
-  const hint=document.createElement('p');hint.className='field-note';hint.textContent='like to save to your calendar. sign up to mark yourself as going. demo sign-ups stay on this device.';
-  details.append(heading,place,actions,hint);
+
+  details.append(heading,place,actions);
   const plans=document.createElement('div');plans.className='feed-plans';const title=document.createElement('h2');title.textContent='room in your day?';const warning=document.createElement('p');warning.className='clash-copy';warning.textContent=clashText(event);const note=document.createElement('p');note.className='field-note';note.textContent='checked against liked and signed-up events. older events use a 60 minute duration.';const graphic=document.createElement('div');graphic.className='clash-graphic';updateClashGraphic(graphic,event);plans.append(title,graphic,warning,note);
   card.append(details,visual,plans);
  } else {card.append(visual,actions);}
  return card;
+}
+function discoverRelevance(event) {
+ const query = $('discover-search').value.trim().toLowerCase();
+ if (!query) return 0;
+ const direct = new Set(query.match(/[a-z0-9]+/g) || []);
+ const related = new Set();
+ for (const [concept, terms] of Object.entries(discoverConcepts)) {
+  if ([concept, ...terms].some(term => direct.has(term))) for (const term of [concept, ...terms]) related.add(term);
+ }
+ let score = 0;
+ for (const [field, weight] of [['title',6],['society',4],['description',2],['location',1],['category',2]]) {
+  const text = ' ' + String(event[field] || '').toLowerCase().replace(/[^a-z0-9]+/g,' ') + ' ';
+  for (const term of new Set([...direct,...related])) {
+   if (text.includes(' '+term+' ') || text.includes(' '+term+'s ')) score += weight * (direct.has(term) ? 3 : 1);
+  }
+ }
+ return score;
+}
+function discoverEvents() {
+ return allEvents().sort((a,b) => discoverRelevance(b)-discoverRelevance(a) || (a.date+a.time).localeCompare(b.date+b.time));
 }
 function matchesDiscoverFilters(event) {
  const status = $('feed-filter').value || 'all';
@@ -147,7 +188,7 @@ function matchesDiscoverFilters(event) {
   && (!$('discover-free-food').checked || event.freeFood === true)
   && (!$('discover-official').checked || event.official === true)
   && (!date || event.date === date)
-  && (!query || [event.title,event.society,event.location,event.description,event.category].join(' ').toLowerCase().includes(query))
+  && (!query || discoverRelevance(event) > 0)
   && (!$('discover-no-clashes').checked || clashesFor(event).length === 0);
 }
 function updateFeedEmpty() {
@@ -159,20 +200,12 @@ function updateFeedEmpty() {
 function renderFeed() {
  if (clashObserver) clashObserver.disconnect();
  const feed=$('discover-feed');feed.replaceChildren();
- for(const event of allEvents()) { const card=eventCard(event,true);card.hidden=!matchesDiscoverFilters(event);feed.append(card); }
+ for(const event of discoverEvents()) { const card=eventCard(event,true);card.hidden=!matchesDiscoverFilters(event);feed.append(card); }
  const empty=document.createElement('p');empty.id='feed-empty';empty.className='feed-empty';empty.textContent='no events match these filters. try another date or clear your filters.';feed.append(empty);updateFeedEmpty();
  feed.scrollTop=0;
 }
 function applyDiscoverFilters() {
- // Keep all cards available so liking or signing up can update filter results in place.
- const feed=$('discover-feed');
- const existing=new Map([...feed.children].filter(row=>row.dataset.eventId).map(row=>[row.dataset.eventId,row]));
- for(const event of allEvents()) {
-  let card=existing.get(eventId(event));
-  if(!card) {card=eventCard(event,true);feed.insertBefore(card,$('feed-empty'));}
-  card.hidden=!matchesDiscoverFilters(event);
- }
- updateFeedEmpty();feed.scrollTop=0;
+ renderFeed();
 }
 const icons = '<span class="event-dot"></span>';
 const sampleDays = [4, 7, 10, 12, 17, 20, 24, 27];
@@ -239,11 +272,11 @@ function renderCalendar() {
     const empty = document.createElement('p'); empty.className = 'empty-events'; empty.textContent = 'a little breathing room. no events for this day yet.'; list.append(empty);
     const create = document.createElement('button'); create.hidden = accountRole !== 'exec'; create.className = 'dummy-button'; create.textContent = 'be the first to make a plan +'; create.addEventListener('click', () => { setTab('create'); $('event-date').value = dateKey(selected); }); list.append(create);
   }
-  for (const [key, title] of [['signed','you are going.'],['liked','your favourites.'],['other','on your radar.']]) {
+  for (const [key, title] of [['signed','your reservations.'],['liked','your favourites.'],['other','on your radar.']]) {
     const section=document.createElement('section'); section.className='agenda-group';
     const items=events.filter(event => key==='signed'?preferences.signed.includes(eventId(event)):key==='liked'?preferences.liked.includes(eventId(event))&&!preferences.signed.includes(eventId(event)):!isPlanned(event));
     const heading=document.createElement('h3');heading.className='agenda-heading';heading.textContent=`${title} (${items.length})`;section.append(heading);
-    if(!items.length) {const empty=document.createElement('p');empty.className='field-note';empty.textContent=key==='signed'?'no sign-ups for this day yet.':key==='liked'?'no favourites for this day yet.':'you are all caught up.';section.append(empty);}
+    if(!items.length) {const empty=document.createElement('p');empty.className='field-note';empty.textContent=key==='signed'?'no reservations for this day yet.':key==='liked'?'no favourites for this day yet.':'you are all caught up.';section.append(empty);}
     items.forEach(event=>section.append(eventCard(event)));list.append(section);
   }
 }
@@ -424,9 +457,10 @@ async function startWorkflow() {
   const [state, events] = await Promise.all([workflowApi('/state'), workflowApi('/catalog')]);
   if (version !== workflowGeneration) return;
   workflowConnected = true;
+  discoverConcepts = state.search_concepts || {};
   savedEvents = events;
   preferences = state.plans;
-  workflowHistory = state.history;
+  workflowHistory = [];
   StudentOnboarding.configure(state);
   if (await StudentOnboarding.openIfNeeded(state)) return;
   showApp(state.user.email, state.user.role);
@@ -475,13 +509,14 @@ function saveWorkflowPlans(next) {
 function readEventForm() {
   const fields = ['title', 'society', 'category', 'date', 'time', 'location', 'description', 'image'];
   return { ...Object.fromEntries(fields.map(key => [key, $('event-' + key).value.trim()])),
-    duration: Number($('event-duration').value), freeFood: $('event-free-food').checked, official: $('event-official').checked };
+    duration: Number($('event-duration').value), freeFood: $('event-free-food').checked, freeEntry: $('event-free-entry').checked, official: $('event-official').checked };
 }
 
 function openWorkflowDraft(draft) {
   currentDraft = draft;
   for (const key of ['title', 'society', 'category', 'date', 'time', 'duration', 'location', 'description', 'image']) $('event-' + key).value = draft[key] ?? '';
   $('event-free-food').checked = draft.freeFood === true;
+  $('event-free-entry').checked = draft.freeEntry === true;
   $('event-official').checked = draft.officialRequested === true;
   $('review-approved').checked = false;
   $('publish-status').textContent = '';
@@ -543,7 +578,7 @@ function renderChatHistory() {
   $('chat-history').replaceChildren();
   for (const message of workflowHistory) {
     const item = document.createElement('p'); item.className = 'chat-message ' + message.role;
-    item.textContent = (message.role === 'user' ? 'you: ' : 'common: ') + message.content;
+    item.textContent = (message.role === 'user' ? 'you: ' : 'func.on: ') + message.content;
     $('chat-history').append(item);
   }
   $('chat-history').scrollTop = $('chat-history').scrollHeight;
@@ -555,7 +590,7 @@ $('chat-form').addEventListener('submit', async event => {
   $('chat-status').textContent = 'checking published events and your saved plans...';
   try {
     const response = await workflowApi('/assistant', { method: 'POST', body: JSON.stringify({ message }) });
-    workflowHistory.push({ role: 'user', content: message }, { role: 'assistant', content: response.message });
+    workflowHistory = [{ role: 'user', content: message }, { role: 'assistant', content: response.message }];
     renderChatHistory(); $('chat-message').value = ''; $('chat-status').textContent = response.mode;
     $('chat-results').replaceChildren();
     for (const item of response.events) {
