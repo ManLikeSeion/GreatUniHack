@@ -27,7 +27,7 @@ Open http://localhost:3000. Stop any older frontend server first with Ctrl+C. Po
 3. Each extracted event becomes a private draft. Select a draft and inspect missing fields, low confidence, uncertain duration and possible duplicate warnings. You can also fill in the form manually and save a draft.
 4. Correct the date, time, duration, location and description. Confirm the human-review checkbox, then approve and publish. Required fields, future dates, clock-change ambiguity and duplicates are checked on the server. Duplicate publication is blocked.
 5. Open another browser tab and sign in as a student. Published events appear in Discover and the calendar. Likes and sign-ups persist in SQLite per email. Live updates use authenticated server-sent events with five-second polling as a fallback.
-6. Open ask your campus companion on Discover. Try ?free food tomorrow without clashes?. With AI configured, natural language becomes validated search filters. Results are selected by code from published database events and checked against your liked/signed-up plans. Without AI, basic search supports category names, today, tomorrow, ISO dates, free food and no-clash requests.
+6. Open ask your campus companion on Discover. Try "free food tomorrow without clashes". With AI configured, natural language becomes validated search filters. Results are selected by code from published database events and checked against your liked/signed-up plans. Without AI, basic search supports category names, today, tomorrow, ISO dates, free food and no-clash requests.
 7. Set interests in settings. Recommendations prioritise those categories. Recent chat history and saved plans survive server restarts.
 
 ## roles and boundaries

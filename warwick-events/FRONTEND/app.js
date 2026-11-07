@@ -107,7 +107,7 @@ function eventCard(event, feed=false) {
  const visual=document.createElement('div'); visual.className=feed?'feed-visual':'banner-visual';
  const image=document.createElement('img'); image.alt=''; image.loading='lazy'; image.src=typeof event.image==='string' && event.image.startsWith('https://')?event.image:bannerImage(event.category); image.addEventListener('error',()=>image.remove()); visual.append(image);
  const content=document.createElement('div'); content.className='banner-content';
- for(const [tag,text,name] of [['span',`${event.category} ? ${event.sample?'sample event':event.society}`,'event-category'],['p',`${event.date} ? ${event.time} ? ${duration(event)} min`,'event-meta'],['h3',event.title,''],['p',event.description,'event-description'],['span',event.society,'event-society']]) { const node=document.createElement(tag); node.textContent=text; node.className=name; content.append(node); }
+ for(const [tag,text,name] of [['span',`${event.category} \u00b7 ${event.sample?'sample event':event.society}`,'event-category'],['p',`${event.date} \u00b7 ${event.time} \u00b7 ${duration(event)} min`,'event-meta'],['h3',event.title,''],['p',event.description,'event-description'],['span',event.society,'event-society']]) { const node=document.createElement(tag); node.textContent=text; node.className=name; content.append(node); }
  const badges = document.createElement('div'); badges.className = 'event-badges';
  if (event.needsReview) {
   const badge = document.createElement('span'); badge.className = 'review-badge';
@@ -194,7 +194,7 @@ function showApp(email, role = 'student') {
   accountRole = roleTabs[role] ? role : 'student';
   currentTab = null;
   document.querySelectorAll('[data-tab]').forEach(button => button.hidden = !roleTabs[accountRole].includes(button.dataset.tab));
-  $('account-role').textContent = `${accountRole} account ? demo role, not verified`;
+  $('account-role').textContent = `${accountRole} account \u00b7 demo role, not verified`;
 
   $('login-view').hidden = true;
   $('app-view').hidden = false;
@@ -332,9 +332,9 @@ function renderPromotions() {
  const list=$('promotion-list');list.replaceChildren();
  let promotions=[];try {const stored=JSON.parse(localStorage.getItem(promotionKey()) || '[]');if(Array.isArray(stored)) promotions=stored;}catch{}
  if(!promotions.length){const empty=document.createElement('p');empty.className='field-note';empty.textContent='your first promotion starts here.';list.append(empty);}
- promotions.forEach(promo=>{const item=document.createElement('p');item.className='organiser-note';item.textContent=`${promo.title} ? ${promo.date} ? ${promo.days} days ? ?${promo.total} ? simulated payment, not published`;list.append(item);});
+ promotions.forEach(promo=>{const item=document.createElement('p');item.className='organiser-note';item.textContent=`${promo.title} \u00b7 ${promo.date} \u00b7 ${promo.days} days \u00b7 \u00a3${promo.total} \u00b7 simulated payment, not published`;list.append(item);});
 }
-$('promo-days').addEventListener('change',()=>{$('promo-total').textContent='?'+Number($('promo-days').value)*15;});
+$('promo-days').addEventListener('change',()=>{$('promo-total').textContent='\u00a3'+Number($('promo-days').value)*15;});
 $('promotion-form').addEventListener('input',()=>{$('promotion-review').hidden=true;pendingPromotion=null;$('promotion-status').textContent='';});
 $('promotion-form').addEventListener('submit',event=>{
  event.preventDefault();if(accountRole!=='external')return;
@@ -344,14 +344,14 @@ $('promotion-form').addEventListener('submit',event=>{
  if(values.date<dateKey(new Date())) {notify('choose today or a future date.');return;}
  if(![1,3,7].includes(Number(values.days)))return;
  pendingPromotion={...values,total:Number(values.days)*15};
- $('promo-preview').textContent=`${values.business} ? ${values.title} ? starts ${values.date} ? ${values.days} days ? ?${pendingPromotion.total}`;
+ $('promo-preview').textContent=`${values.business} \u00b7 ${values.title} \u00b7 starts ${values.date} \u00b7 ${values.days} days \u00b7 \u00a3${pendingPromotion.total}`;
  $('promotion-review').hidden=false;
 });
 $('demo-payment').addEventListener('click',()=>{
  if(accountRole!=='external'||!pendingPromotion)return;
  try {const stored=JSON.parse(localStorage.getItem(promotionKey())||'[]');localStorage.setItem(promotionKey(),JSON.stringify([...(Array.isArray(stored)?stored:[]),pendingPromotion]));}
  catch {$('promotion-status').textContent='could not save your demo promotion. browser storage may be unavailable.';return;}
- pendingPromotion=null;$('promotion-review').hidden=true;$('promotion-form').reset();$('promo-total').textContent='?45';$('promotion-status').textContent='demo payment complete. no charge was made and your promotion is not published.';renderPromotions();
+ pendingPromotion=null;$('promotion-review').hidden=true;$('promotion-form').reset();$('promo-total').textContent='\u00a345';$('promotion-status').textContent='demo payment complete. no charge was made and your promotion is not published.';renderPromotions();
 });
 
 
