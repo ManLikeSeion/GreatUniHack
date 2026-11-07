@@ -177,9 +177,24 @@ class WorkflowTests(unittest.TestCase):
             provider.return_value.messages.create.return_value = SimpleNamespace(content=[tool])
             response = self.client.post('/api/assistant', headers=self.student,
                                         json={'message': 'find me free food'})
+            self.assertEqual(provider.return_value.messages.create.call_args.kwargs['tool_choice'],
+                             {'type': 'auto'})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['mode'], 'AI search')
         self.assertEqual([e['id'] for e in response.json()['events']], [event['id']])
+
+    def test_ai_search_retries_missing_tool_call(self):
+        tool = SimpleNamespace(type='tool_use', name='search_events', input={
+            'category': None, 'date': None, 'free_food': False, 'no_clashes': False})
+        with patch.dict('os.environ', {'ANTHROPIC_API_KEY': 'test-only', 'ANTHROPIC_MODEL': 'test-only'}), \
+                patch('anthropic.Anthropic') as provider:
+            provider.return_value.messages.create.side_effect = [
+                SimpleNamespace(content=[SimpleNamespace(type='text', text='Hello')]),
+                SimpleNamespace(content=[tool])]
+            response = self.client.post('/api/assistant', headers=self.student,
+                                        json={'message': 'find events'})
+            self.assertEqual(provider.return_value.messages.create.call_count, 2)
+        self.assertEqual(response.json()['mode'], 'AI search')
 
 
 if __name__ == '__main__':
