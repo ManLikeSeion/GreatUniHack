@@ -1,0 +1,27 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Env and local config
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
