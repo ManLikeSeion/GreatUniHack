@@ -1,4 +1,4 @@
-# common: campus events prototype
+# func.on: campus events prototype
 
 ## run locally (windows powershell)
 
