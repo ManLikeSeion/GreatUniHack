@@ -39,6 +39,11 @@ async function changePlan(event, kind) {
  try { await saveWorkflowPlans(next); } catch (error) { savingPlan = false; notify(error.message); return; }
  preferences = next;
  savingPlan = false;
+ if (kind === 'signed') {
+  const added = next.signed.includes(id);
+  event.reserved = Math.max(0, (Number(event.reserved) || 0) + (added ? 1 : -1));
+  notify(added ? 'place reserved. your reference is ' + reservationCode(event) + '. show it at the door.' : 'reservation cancelled.');
+ }
  renderCalendar();
  // Update in place so liking does not reset the scroll position.
  document.querySelectorAll('[data-event-id]').forEach(row => {
@@ -52,10 +57,19 @@ async function changePlan(event, kind) {
  updateFeedEmpty();
 }
 function notify(message) { $('toast').textContent=message; $('toast').hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(() => $('toast').hidden=true,3500); }
+function reservationCode(event) {
+ const text = eventId(event) + '|' + $('account-email').value.toLowerCase(); let h = 5381;
+ for (const ch of text) h = ((h * 33) ^ ch.charCodeAt(0)) >>> 0;
+ return 'WK-' + h.toString(36).toUpperCase().padStart(6, '0').slice(-6);
+}
 function planButtons(event) {
- return [['liked','like + save','liked'],['signed','sign up','signed up']].map(([kind,label,active]) => {
+ const buttons = [['liked','like + save','liked'],['signed','reserve my place','place reserved']].map(([kind,label,active]) => {
   const button = document.createElement('button'); const on = preferences[kind].includes(eventId(event)); button.className='plan-button' + (on ? ' is-on' : ''); button.textContent = (kind === 'liked' ? (on ? '\u2665 ' : '\u2661 ') : (on ? '\u2713 ' : '+ ')) + (on ? active : label); button.setAttribute('aria-pressed',String(on)); button.addEventListener('click',()=>changePlan(event,kind)); return button;
  });
+ const count = document.createElement('span'); count.className = 'reserved-count';
+ const n = Number(event.reserved) || 0, mine = preferences.signed.includes(eventId(event));
+ count.textContent = (mine ? 'your ref ' + reservationCode(event) + ' \u00b7 ' : '') + (n ? n + (n === 1 ? ' place reserved' : ' places reserved') : 'be the first to reserve');
+ return [...buttons, count];
 }
 function minutes(event) { const [hours, mins] = event.time.split(':').map(Number); const [y,m,d]=event.date.split('-').map(Number); return new Date(y,m-1,d,hours,mins).getTime()/60000; }
 function duration(event) { return Number(event.duration) > 0 ? Number(event.duration) : 60; }
@@ -130,8 +144,8 @@ function eventCard(event, feed=false) {
   const details=document.createElement('div');details.className='feed-details';
   const heading=document.createElement('h2');heading.textContent='the little details.';
   const place=document.createElement('p');place.textContent=event.location;
-  const hint=document.createElement('p');hint.className='field-note';hint.textContent='like to save to your calendar. sign up to mark yourself as going. demo sign-ups stay on this device.';
-  details.append(heading,place,actions,hint);
+  
+  details.append(heading,place,actions);
   const plans=document.createElement('div');plans.className='feed-plans';const title=document.createElement('h2');title.textContent='room in your day?';const warning=document.createElement('p');warning.className='clash-copy';warning.textContent=clashText(event);const note=document.createElement('p');note.className='field-note';note.textContent='checked against liked and signed-up events. older events use a 60 minute duration.';const graphic=document.createElement('div');graphic.className='clash-graphic';updateClashGraphic(graphic,event);plans.append(title,graphic,warning,note);
   card.append(details,visual,plans);
  } else {card.append(visual,actions);}
@@ -239,11 +253,11 @@ function renderCalendar() {
     const empty = document.createElement('p'); empty.className = 'empty-events'; empty.textContent = 'a little breathing room. no events for this day yet.'; list.append(empty);
     const create = document.createElement('button'); create.hidden = accountRole !== 'exec'; create.className = 'dummy-button'; create.textContent = 'be the first to make a plan +'; create.addEventListener('click', () => { setTab('create'); $('event-date').value = dateKey(selected); }); list.append(create);
   }
-  for (const [key, title] of [['signed','you are going.'],['liked','your favourites.'],['other','on your radar.']]) {
+  for (const [key, title] of [['signed','your reservations.'],['liked','your favourites.'],['other','on your radar.']]) {
     const section=document.createElement('section'); section.className='agenda-group';
     const items=events.filter(event => key==='signed'?preferences.signed.includes(eventId(event)):key==='liked'?preferences.liked.includes(eventId(event))&&!preferences.signed.includes(eventId(event)):!isPlanned(event));
     const heading=document.createElement('h3');heading.className='agenda-heading';heading.textContent=`${title} (${items.length})`;section.append(heading);
-    if(!items.length) {const empty=document.createElement('p');empty.className='field-note';empty.textContent=key==='signed'?'no sign-ups for this day yet.':key==='liked'?'no favourites for this day yet.':'you are all caught up.';section.append(empty);}
+    if(!items.length) {const empty=document.createElement('p');empty.className='field-note';empty.textContent=key==='signed'?'no reservations for this day yet.':key==='liked'?'no favourites for this day yet.':'you are all caught up.';section.append(empty);}
     items.forEach(event=>section.append(eventCard(event)));list.append(section);
   }
 }
@@ -541,7 +555,7 @@ function renderChatHistory() {
   $('chat-history').replaceChildren();
   for (const message of workflowHistory) {
     const item = document.createElement('p'); item.className = 'chat-message ' + message.role;
-    item.textContent = (message.role === 'user' ? 'you: ' : 'common: ') + message.content;
+    item.textContent = (message.role === 'user' ? 'you: ' : 'func.on: ') + message.content;
     $('chat-history').append(item);
   }
   $('chat-history').scrollTop = $('chat-history').scrollHeight;
