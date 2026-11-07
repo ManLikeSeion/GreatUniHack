@@ -28,3 +28,6 @@ coverage/
 # IDE
 .vscode/
 .idea/
+
+# Local workflow database
+warwick-events/BACKEND/data/

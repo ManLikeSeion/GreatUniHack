@@ -1,3 +1,4 @@
+let workflowConnected = false;
 const $ = (id) => document.getElementById(id);
 let month = new Date();
 month.setDate(1);
@@ -10,11 +11,11 @@ const categoryImages = { social: 'photo-1511795409834-ef04bbd61622', sports: 'ph
 function bannerImage(category) { return `https://images.unsplash.com/${categoryImages[category] || categoryImages.other}?auto=format&fit=crop&w=1000&q=80`; }
 function samplesFor(date) {
  if (!sampleDays.includes(date.getDate())) return [];
- return [{ title: 'a little social, a lot of good company.', society: 'film society', time: '18:00', duration: 120, location: 'the copper rooms', category: 'social', description: 'meet fellow film lovers, swap recommendations and get to know your society. everyone is welcome.' }, { title: 'give badminton a go.', society: 'badminton society', time: '19:30', duration: 90, location: 'sports & wellness hub', category: 'sports', description: 'a relaxed evening on court for all abilities. bring trainers and a water bottle; we will bring the rackets.' }].map((event, index) => ({...event, id: `sample-${dateKey(date)}-${index}`, date: dateKey(date), sample: true}));
+ return [{ title: 'a little social, a lot of good company.', society: 'film society', time: '18:00', duration: 120, location: 'the copper rooms', category: 'social', description: 'meet fellow film lovers, swap recommendations and get to know your society. everyone is welcome.' }, { title: 'give badminton a go.', society: 'badminton society', time: '19:30', duration: 90, location: 'sports & wellness hub', category: 'sports', description: 'a relaxed evening on court for all abilities. bring trainers and a water bottle; we will bring the rackets.' }].map((event, index) => ({...event, id: `sample-${dateKey(date)}-${index}`, date: dateKey(date), sample: true, freeFood: index === 0, official: index === 1}));
 }
 function eventId(event) { return event.id || JSON.stringify([event.date,event.time,event.title,event.society,event.owner]); }
 function eventsFor(date) {
- return [...samplesFor(date), ...savedEvents.filter(e => e.date === dateKey(date))].sort((a,b) => a.time.localeCompare(b.time));
+ return [...(workflowConnected ? [] : samplesFor(date)), ...savedEvents.filter(e => e.date === dateKey(date))].sort((a,b) => a.time.localeCompare(b.time));
 }
 let preferences = { liked: [], signed: [] };
 function loadPreferences() {
@@ -23,16 +24,21 @@ function loadPreferences() {
 }
 function isPlanned(event) { const id = eventId(event); return preferences.liked.includes(id) || preferences.signed.includes(id); }
 function allEvents() {
+ if (workflowConnected) return [...savedEvents].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
  const start = new Date(); start.setHours(0,0,0,0);
  const samples = [];
  for (let offset=0;offset<45;offset++) { const day = new Date(start); day.setDate(day.getDate()+offset); samples.push(...samplesFor(day)); }
  return [...samples,...savedEvents].sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
 }
-function changePlan(event, kind) {
+let savingPlan = false;
+async function changePlan(event, kind) {
+ if (savingPlan) { notify('saving your plan; try again in a moment.'); return; }
+ savingPlan = true;
  const id = eventId(event);
  const next = { ...preferences, [kind]: preferences[kind].includes(id) ? preferences[kind].filter(value => value !== id) : [...preferences[kind],id] };
- try { localStorage.setItem('common-plans:' + $('account-email').value.toLowerCase(), JSON.stringify(next)); } catch { notify('could not save your plans. browser storage is unavailable.'); return; }
+ try { await saveWorkflowPlans(next); } catch (error) { savingPlan = false; notify(error.message); return; }
  preferences = next;
+ savingPlan = false;
  renderCalendar();
  // Update in place so liking does not reset the scroll position.
  document.querySelectorAll('[data-event-id]').forEach(row => {
@@ -102,7 +108,17 @@ function eventCard(event, feed=false) {
  const image=document.createElement('img'); image.alt=''; image.loading='lazy'; image.src=typeof event.image==='string' && event.image.startsWith('https://')?event.image:bannerImage(event.category); image.addEventListener('error',()=>image.remove()); visual.append(image);
  const content=document.createElement('div'); content.className='banner-content';
  for(const [tag,text,name] of [['span',`${event.category} ? ${event.sample?'sample event':event.society}`,'event-category'],['p',`${event.date} ? ${event.time} ? ${duration(event)} min`,'event-meta'],['h3',event.title,''],['p',event.description,'event-description'],['span',event.society,'event-society']]) { const node=document.createElement(tag); node.textContent=text; node.className=name; content.append(node); }
- visual.append(content);
+ const badges = document.createElement('div'); badges.className = 'event-badges';
+ if (event.freeFood === true) {
+  const badge = document.createElement('span'); badge.className = 'food-badge'; badge.title = 'free food available';
+  badge.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3v5m3-5v5M1 3v5a3 3 0 0 0 6 0M4 11v10M17 3c-4 3-4 9 0 9h3M20 3v18"/></svg><span>free food</span>';
+  badges.append(badge);
+ }
+ if (event.official === true) {
+  const badge = document.createElement('span'); badge.className = 'official-badge';
+  badge.textContent = 'official'; badge.title = 'organiser-declared official event; not university-verified in this demo'; badges.append(badge);
+ }
+ visual.append(badges, content);
  const actions=document.createElement('div'); actions.className='event-actions'; actions.append(...planButtons(event));
  if(feed) {
   const details=document.createElement('div');details.className='feed-details';
@@ -122,6 +138,8 @@ function matchesDiscoverFilters(event) {
  const query = $('discover-search').value.trim().toLowerCase();
  return (status === 'all' || preferences[status].includes(eventId(event)))
   && (category === 'all' || event.category === category)
+  && (!$('discover-free-food').checked || event.freeFood === true)
+  && (!$('discover-official').checked || event.official === true)
   && (!date || event.date === date)
   && (!query || [event.title,event.society,event.location,event.description,event.category].join(' ').toLowerCase().includes(query))
   && (!$('discover-no-clashes').checked || clashesFor(event).length === 0);
@@ -176,17 +194,17 @@ function showApp(email, role = 'student') {
   $('app-view').hidden = false;
   $('account-email').value = email;
   renderPromotions();
-  loadPreferences();
+  // Preferences are loaded from the authenticated workflow session.
   setTab(accountRole === 'external' ? 'promote' : 'discover');
   renderCalendar();
 }
-$('login-form').addEventListener('submit', (event) => {
+$('login-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!loginRole) return;
   const email = $('email').value.trim();
   if (!$('email').checkValidity()) return $('email').reportValidity();
-  try { sessionStorage.setItem('common-email', email); sessionStorage.setItem('common-role', loginRole); } catch {}
-  showApp(email, loginRole);
+  const button = $('login-form').querySelector('[type=submit]'); button.disabled = true;
+  try { await signInWorkflow(email, loginRole); } catch (error) { notify(error.message); } finally { button.disabled = false; }
 });
 function renderCalendar() {
   $('month-label').textContent = month.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }).toLowerCase();
@@ -277,6 +295,7 @@ document.querySelectorAll('[data-tab]').forEach(button => button.addEventListene
 let toastTimer;
 document.querySelectorAll('[data-message]').forEach(button => button.addEventListener('click', () => { $('toast').textContent = button.dataset.message; $('toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => $('toast').hidden = true, 3000); }));
 $('logout').addEventListener('click', () => {
+ signOutWorkflow();
  try { sessionStorage.removeItem('common-email'); sessionStorage.removeItem('common-role'); } catch {}
  ++tabTransition;runningTabAnimations.forEach(animation=>animation.cancel());runningTabAnimations=[];currentTab=null;
  $('app-view').hidden=true;$('login-view').hidden=false;$('email').value='';loginRole=null;$('login-form').hidden=true;
@@ -287,32 +306,16 @@ $('logout').addEventListener('click', () => {
 
 $('close-day').addEventListener('click', () => { dayOpen = false; renderCalendar(); });
 $('event-image').addEventListener('input', () => $('event-image').setCustomValidity(''));
-$('event-form').addEventListener('submit', event => {
-  event.preventDefault();
-  if (accountRole !== 'exec') return;
-  const image = $('event-image').value.trim();
-  if (image && !image.startsWith('https://')) { $('event-image').setCustomValidity('please use an https image link.'); $('event-image').reportValidity(); return; }
-  const fields = ['title', 'society', 'category', 'date', 'time', 'location', 'description'];
-  const created = Object.fromEntries(fields.map(key => [key, $('event-' + key).value.trim()]));
-  for (const key of fields) { if (!created[key]) { $('event-' + key).focus(); return; } }
-  created.image = image;
-  created.id = crypto.randomUUID();
-  created.duration = Number($('event-duration').value);
-  if (!Number.isFinite(created.duration) || created.duration < 15 || created.duration > 1440) return;
-  created.owner = $('account-email').value;
-  const next = [...savedEvents, created];
-  try { localStorage.setItem('common-events', JSON.stringify(next)); } catch { $('save-error').hidden = false; $('save-error').textContent = 'could not save this event. browser storage may be full or unavailable. please try again.'; return; }
-  savedEvents = next;
-  const [year, monthIndex, day] = created.date.split('-').map(Number);
-  selected = new Date(year, monthIndex - 1, day); month = new Date(year, monthIndex - 1, 1); dayOpen = true;
-  $('event-form').reset(); $('save-error').hidden = true; setTab('calendar'); renderCalendar();
-  $('toast').textContent = 'your event is on the calendar.'; $('toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => $('toast').hidden = true, 3500);
+$('event-form').addEventListener('submit', async event => {
+ event.preventDefault(); if (accountRole !== 'exec') return;
+ const button=$('event-form').querySelector('[type=submit]');button.disabled=true;
+ try {const draft=await workflowApi('/drafts',{method:'POST',body:JSON.stringify(readEventForm())});openWorkflowDraft(draft);await loadWorkflowDrafts();notify('draft saved. review and approve before publishing.');}catch(error){$('save-error').hidden=false;$('save-error').textContent=error.message;}finally{button.disabled=false;}
 });
 
 $('feed-filter').addEventListener('change',applyDiscoverFilters);
 $('discover-filters').addEventListener('submit', event => event.preventDefault());
 $('discover-search').addEventListener('input',applyDiscoverFilters);
-for(const id of ['discover-category','discover-date','discover-no-clashes']) $(id).addEventListener('change',applyDiscoverFilters);
+for(const id of ['discover-category','discover-date','discover-no-clashes','discover-free-food','discover-official']) $(id).addEventListener('change',applyDiscoverFilters);
 $('clear-discover-filters').addEventListener('click',()=>{ $('discover-filters').reset(); $('feed-filter').value='all'; applyDiscoverFilters(); });
 $('personal-only').addEventListener('change',renderCalendar);
 
@@ -344,4 +347,225 @@ $('demo-payment').addEventListener('click',()=>{
  catch {$('promotion-status').textContent='could not save your demo promotion. browser storage may be unavailable.';return;}
  pendingPromotion=null;$('promotion-review').hidden=true;$('promotion-form').reset();$('promo-total').textContent='?45';$('promotion-status').textContent='demo payment complete. no charge was made and your promotion is not published.';renderPromotions();
 });
-try { const email=sessionStorage.getItem('common-email'); if(email) showApp(email,sessionStorage.getItem('common-role')||'student'); } catch {}
+
+
+
+/* Shared API integration. Credentials stay in the backend .env. */
+let workflowToken = '';
+try { workflowToken = sessionStorage.getItem('common-token') || ''; } catch {}
+let workflowTimer;
+let workflowGeneration = 0;
+let currentDraft = null;
+let workflowHistory = [];
+let plansQueue = Promise.resolve();
+let liveController;
+
+function applyLiveCatalog(latest) {
+  if (JSON.stringify(latest) !== JSON.stringify(savedEvents)) {
+    savedEvents = latest; renderCalendar();
+    if (currentTab === 'discover') renderFeed();
+    $('connection-status').textContent = 'campus events updated live | shared database connected';
+  }
+}
+
+async function streamWorkflow(version) {
+  liveController?.abort();
+  liveController = new AbortController();
+  try {
+    const response = await fetch('/api/updates', { headers: { Authorization: 'Bearer ' + workflowToken }, signal: liveController.signal });
+    if (!response.ok || !response.body) return;
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    while (version === workflowGeneration) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      let end;
+      while ((end = buffer.indexOf('\n\n')) >= 0) {
+        const message = buffer.slice(0, end); buffer = buffer.slice(end + 2);
+        if (message.startsWith('data: ') && version === workflowGeneration) applyLiveCatalog(JSON.parse(message.slice(6)));
+      }
+    }
+  } catch { /* Five-second polling below keeps sync working if streaming drops. */ }
+}
+
+async function workflowApi(path, options = {}) {
+  const response = await fetch('/api' + path, {
+    ...options,
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + workflowToken, ...options.headers },
+    signal: options.signal || AbortSignal.timeout(100000)
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    if (response.status === 404) throw new Error('an older server is running. stop it with ctrl+c, then run npm.cmd start from warwick-events/frontend and refresh.');
+    let detail = data.detail || data.error || 'the campus server could not complete this request';
+    if (typeof detail !== 'string') detail = detail.issues?.join('. ') || detail.message || 'please check the event details';
+    throw new Error(detail);
+  }
+  return data;
+}
+
+async function signInWorkflow(email, role) {
+  const session = await workflowApi('/session', { method: 'POST', body: JSON.stringify({ email, role }) });
+  workflowToken = session.token;
+  try { sessionStorage.setItem('common-token', workflowToken); } catch {}
+  await startWorkflow();
+}
+
+async function startWorkflow() {
+  const version = ++workflowGeneration;
+  const [state, events] = await Promise.all([workflowApi('/state'), workflowApi('/catalog')]);
+  if (version !== workflowGeneration) return;
+  workflowConnected = true;
+  savedEvents = events;
+  preferences = state.plans;
+  workflowHistory = state.history;
+  showApp(state.user.email, state.user.role);
+  renderChatHistory();
+  for (const option of $('profile-interests').options) option.selected = (preferences.interests || []).includes(option.value);
+  $('save-interests').hidden = accountRole === 'external';
+  $('profile-interests').hidden = accountRole === 'external';
+  $('connection-status').textContent = `shared campus database connected | ${state.ai_available ? 'ai ready' : 'ai not configured: manual review and basic search available'} | demo identity`;
+  if (accountRole === 'exec') await loadWorkflowDrafts();
+  streamWorkflow(version);
+  clearInterval(workflowTimer);
+  workflowTimer = setInterval(async () => {
+    if (document.hidden) return;
+    const generation = workflowGeneration;
+    try {
+      const latest = await workflowApi('/catalog');
+      if (generation !== workflowGeneration) return;
+      applyLiveCatalog(latest);
+    } catch (error) { if (generation === workflowGeneration) $('connection-status').textContent = 'live sync paused: ' + error.message; }
+  }, 5000);
+}
+
+function signOutWorkflow() {
+  workflowApi('/session', { method: 'DELETE' }).catch(() => {});
+  ++workflowGeneration; clearInterval(workflowTimer); workflowToken = ''; workflowConnected = false;
+  liveController?.abort();
+  savedEvents = []; preferences = { liked: [], signed: [], interests: [] };
+  currentDraft = null; workflowHistory = []; $('draft-review').hidden = true;
+  $('draft-list').replaceChildren(); $('chat-results').replaceChildren(); $('chat-history').replaceChildren();
+  $('event-form').reset(); $('extract-form').reset();
+  try { sessionStorage.removeItem('common-token'); } catch {}
+}
+
+function saveWorkflowPlans(next) {
+  // Serialize updates so two fast likes cannot overwrite each other on the server.
+  const version = workflowGeneration;
+  const task = plansQueue.catch(() => {}).then(async () => {
+    const result = await workflowApi('/plans', { method: 'PUT', body: JSON.stringify({ ...next, interests: next.interests || preferences.interests || [] }) });
+    if (version !== workflowGeneration) throw new Error('account changed; sign in again');
+    return result;
+  });
+  plansQueue = task;
+  return task;
+}
+
+function readEventForm() {
+  const fields = ['title', 'society', 'category', 'date', 'time', 'location', 'description', 'image'];
+  return { ...Object.fromEntries(fields.map(key => [key, $('event-' + key).value.trim()])),
+    duration: Number($('event-duration').value), freeFood: $('event-free-food').checked, official: $('event-official').checked };
+}
+
+function openWorkflowDraft(draft) {
+  currentDraft = draft;
+  for (const key of ['title', 'society', 'category', 'date', 'time', 'duration', 'location', 'description', 'image']) $('event-' + key).value = draft[key] ?? '';
+  $('event-free-food').checked = draft.freeFood === true;
+  $('event-official').checked = draft.officialRequested === true;
+  $('review-approved').checked = false;
+  $('publish-status').textContent = '';
+  $('draft-review').hidden = false;
+  $('save-error').hidden = true;
+  $('draft-issues').replaceChildren();
+  const reasons = [...(draft.review_reasons || [])];
+  if (draft.duplicates?.length) reasons.push('possible duplicate: this event may already be published');
+  if (!reasons.length) reasons.push('check the date, time, duration, location and source before approval');
+  reasons.forEach(reason => { const item = document.createElement('li'); item.textContent = reason; $('draft-issues').append(item); });
+}
+
+async function loadWorkflowDrafts() {
+  const drafts = await workflowApi('/drafts');
+  $('draft-list').replaceChildren();
+  if (!drafts.length) { const note = document.createElement('p'); note.className = 'field-note'; note.textContent = 'no private drafts yet.'; $('draft-list').append(note); }
+  for (const draft of drafts) {
+    const button = document.createElement('button'); button.type = 'button'; button.className = 'dummy-button';
+    button.textContent = draft.title + ' | review'; button.addEventListener('click', () => openWorkflowDraft(draft)); $('draft-list').append(button);
+  }
+}
+
+$('extract-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const button = $('extract-form').querySelector('[type=submit]'); button.disabled = true;
+  $('extract-status').textContent = 'reading your submission and checking event details...';
+  try {
+    const poster = $('extract-poster').files[0];
+    if (poster && poster.size > 4 * 1024 * 1024) throw new Error('choose a poster smaller than 4 mb');
+    let image;
+    if (poster) image = await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result.split(',')[1]); reader.onerror = () => reject(new Error('could not read this poster')); reader.readAsDataURL(poster); });
+    const result = await workflowApi('/extract', { method: 'POST', body: JSON.stringify({ text: $('extract-text').value, society: $('extract-society').value, image, media_type: poster?.type || 'image/jpeg' }) });
+    $('extract-status').textContent = result.message;
+    await loadWorkflowDrafts();
+    if (result.drafts.length) openWorkflowDraft(result.drafts[0]);
+  } catch (error) { $('extract-status').textContent = error.message; }
+  finally { button.disabled = false; }
+});
+
+$('event-form').addEventListener('input', () => { $('review-approved').checked = false; });
+$('publish-draft').addEventListener('click', async () => {
+  if (!currentDraft) return;
+  if (!$('event-form').reportValidity()) return;
+  if (!$('review-approved').checked) { $('publish-status').textContent = 'confirm you checked and corrected the details first.'; return; }
+  $('publish-draft').disabled = true;
+  try {
+    const published = await workflowApi(`/drafts/${currentDraft.id}/publish`, { method: 'POST', body: JSON.stringify({ event: readEventForm(), approved: true }) });
+    savedEvents = await workflowApi('/catalog');
+    const [year, monthIndex, day] = published.date.split('-').map(Number);
+    selected = new Date(year, monthIndex - 1, day); month = new Date(year, monthIndex - 1, 1); dayOpen = true;
+    currentDraft = null; $('draft-review').hidden = true; $('event-form').reset();
+    await loadWorkflowDrafts(); renderCalendar(); setTab('calendar');
+    notify(published.officialRequested ? 'event published. official status is pending independent approval.' : 'approved event published to the shared campus calendar.');
+  } catch (error) { $('publish-status').textContent = error.message; }
+  finally { $('publish-draft').disabled = false; }
+});
+
+function renderChatHistory() {
+  $('chat-history').replaceChildren();
+  for (const message of workflowHistory) {
+    const item = document.createElement('p'); item.className = 'chat-message ' + message.role;
+    item.textContent = (message.role === 'user' ? 'you: ' : 'common: ') + message.content;
+    $('chat-history').append(item);
+  }
+  $('chat-history').scrollTop = $('chat-history').scrollHeight;
+}
+
+$('chat-form').addEventListener('submit', async event => {
+  event.preventDefault(); const message = $('chat-message').value.trim(); if (!message) return;
+  const button = $('chat-form').querySelector('[type=submit]'); button.disabled = true;
+  $('chat-status').textContent = 'checking published events and your saved plans...';
+  try {
+    const response = await workflowApi('/assistant', { method: 'POST', body: JSON.stringify({ message }) });
+    workflowHistory.push({ role: 'user', content: message }, { role: 'assistant', content: response.message });
+    renderChatHistory(); $('chat-message').value = ''; $('chat-status').textContent = response.mode;
+    $('chat-results').replaceChildren();
+    for (const item of response.events) {
+      const card = eventCard(item);
+      if (item.clashes.length) { const warning = document.createElement('p'); warning.className = 'assistant-clash'; warning.textContent = 'potential clash with your saved plans'; card.append(warning); }
+      $('chat-results').append(card);
+    }
+  } catch (error) { $('chat-status').textContent = error.message; }
+  finally { button.disabled = false; }
+});
+
+$('save-interests').addEventListener('click', async () => {
+  const interests = [...$('profile-interests').selectedOptions].map(option => option.value);
+  try { preferences = await saveWorkflowPlans({ ...preferences, interests }); notify('interests saved. your companion will prioritise these categories.'); }
+  catch (error) { notify(error.message); }
+});
+
+if (workflowToken) startWorkflow().catch(error => {
+  workflowToken = ''; try { sessionStorage.removeItem('common-token'); } catch {}
+  notify('please sign in again: ' + error.message);
+});

@@ -10,11 +10,13 @@ from shared.schema import EXAMPLE, Event, ExtractionResult
 
 def create_app() -> FastAPI:
     app = FastAPI(title="Warwick Events API")
+    from BACKEND.workflow import create_workflow
+    app.include_router(create_workflow(), prefix="/api")
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:5173"],
-        allow_methods=["GET", "POST"],
-        allow_headers=["Content-Type"],
+        allow_origins=["http://localhost:5173", "http://localhost:3000"],
+        allow_methods=["GET", "POST", "PUT", "DELETE"],
+        allow_headers=["Content-Type", "Authorization"],
     )
 
     # Each application starts with its own validated sample and temporary store.
