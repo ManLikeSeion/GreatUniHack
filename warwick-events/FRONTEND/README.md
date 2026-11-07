@@ -63,7 +63,7 @@ Workflow tests use temporary SQLite databases and a stub extractor, never a paid
 First-time **student** demo accounts now complete four screens: about you,
 interests, society discovery, and a completion summary. Exec and external roles
 keep their existing flows. Returning completed students go straight to Discover;
-Settings ? edit your campus profile reopens onboarding.
+Settings → edit your campus profile reopens onboarding.
 
 Use the existing start commands above. No new runtime dependencies are required.
 Each Continue saves the current step to SQLite; Back retains current selections,
