@@ -1,4 +1,4 @@
-# common: campus events prototype
+# func.on: campus events prototype
 
 ## run locally (windows powershell)
 
@@ -28,7 +28,7 @@ Open http://localhost:3000. Stop any older frontend server first with Ctrl+C. Po
 4. Correct the date, time, duration, location and description. Confirm the human-review checkbox, then approve and publish. Required fields, future dates, clock-change ambiguity and duplicates are checked on the server. Duplicate publication is blocked.
 5. Open another browser tab and sign in as a student. Published events appear in Discover and the calendar. Likes and sign-ups persist in SQLite per email. Live updates use authenticated server-sent events with five-second polling as a fallback.
 6. Open ask your campus companion on Discover. Try "free food tomorrow without clashes". With AI configured, natural language becomes validated search filters. Results are selected by code from published database events and checked against your liked/signed-up plans. Without AI, basic search supports category names, today, tomorrow, ISO dates, free food and no-clash requests.
-7. Set interests in settings. Recommendations prioritise those categories. Recent chat history and saved plans survive server restarts.
+7. Set interests in settings. Recommendations prioritise those categories. Saved plans survive server restarts. Companion searches are independent: chat history is not stored, and only the latest question and response remain visible until refresh.
 
 ## roles and boundaries
 
@@ -57,3 +57,5 @@ From `warwick-events`:
 ```
 
 Workflow tests use temporary SQLite databases and a stub extractor, never a paid model call. A real extraction smoke test requires your configured AI account.
+
+Search supports concept expansion (for example travel includes buses, coaches and away days) and relevance ranking in both Discover and the companion. Discover uses deterministic matching; the companion also uses AI keyword extraction when configured. Orange badges indicate free food and blue ticket badges indicate free admission. Unknown prices are not treated as free; inferred langar meals are labelled likely free food.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>common · your campus, connected</title>
+  <title>func.on · your campus, connected</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"><script src="app.js" defer></script>
@@ -15,7 +15,7 @@
     <symbol id="create" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 7v10M7 12h10"/></symbol>
     <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
   </defs></svg>
-  <header class="site-header"><a class="brand" href="./" aria-label="common home"><span class="brand-mark">c<span>·</span></span>common<span class="brand-dot">.</span></a><span class="campus-tag"><span></span> made for warwick</span></header>
+  <header class="site-header"><a class="brand" href="./" aria-label="func.on home"><img class="uni-logo" src="warwick-logo.png" alt="University of Warwick logo" onerror="this.remove()"><span class="brand-mark">f<span>·</span></span><span class="brand-stack"><span class="brand-name">func<span class="brand-dot">.</span>on</span><span class="uni-name">University of Warwick</span></span></a><span class="campus-tag"><span></span> made for warwick</span></header>
   <main>
     <section id="login-view" class="login-layout">
       <div class="intro"><span class="eyebrow">a little more connected</span><h1>your people.<br>your plans.<br><span>all in one place.</span></h1><p>from your next society social to a bite between lectures.<br class="desktop-break"> find your corner of campus.</p><div class="community"><div class="avatars"><span>✳</span><span>☺</span><span>✿</span></div><span>one campus. so many possibilities.</span></div></div>
@@ -30,7 +30,7 @@
       <div class="app-heading"><div><span class="eyebrow">your little campus companion</span><h1 id="page-title">make room for good plans.</h1></div><span class="profile" title="signed in">☺</span></div>
       <section id="discover-panel" hidden>
         <details class="assistant-box"><summary>ask your campus companion</summary><p class="field-note">try: find free food tomorrow without clashes. recommendations use published events and your saved plans.</p><div id="chat-history" class="chat-history" aria-live="polite"></div><form id="chat-form" class="chat-form"><label class="sr-only" for="chat-message">your question</label><input id="chat-message" required maxlength="1000" placeholder="what are you looking for?"><button class="primary" type="submit">ask</button></form><p id="chat-status" role="status"></p><div id="chat-results"></div></details>
-        <div class="feed-toolbar"><div><span class="eyebrow">a new plan is one scroll away</span><p>like it. plan it. show up.</p></div><label class="feed-filter">show<select id="feed-filter"><option value="all">all events</option><option value="signed">signed up</option><option value="liked">liked events</option></select></label></div>
+        <div class="feed-toolbar"><div><span class="eyebrow">a new plan is one scroll away</span><p>like it. plan it. show up.</p></div><label class="feed-filter">show<select id="feed-filter"><option value="all">all events</option><option value="signed">reserved</option><option value="liked">liked events</option></select></label></div>
         <form id="discover-filters" class="discover-filters" aria-label="filter events">
           <label>search<input id="discover-search" type="search" placeholder="event, society or location"></label>
           <label>category<select id="discover-category"><option value="all">all categories</option><option>social</option><option>sports</option><option>culture</option><option>arts</option><option>academic</option><option>careers</option><option>charity</option><option>other</option></select></label>

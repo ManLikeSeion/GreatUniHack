@@ -37,7 +37,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = __dirname;
-const types = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript' };
+const types = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp' };
 http.createServer((req, res) => {
   if (req.url.startsWith('/api/')) {
     let size = 0;

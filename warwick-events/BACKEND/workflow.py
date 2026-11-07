@@ -165,7 +165,12 @@ def create_workflow(db_path=None, extractor=None, event_provider=None):
             if converted is not None and key(converted) not in seen:
                 published.append(converted)
                 seen.add(key(converted))
-        return sorted([event_benefits(event) for event in published], key=lambda event: (event['date'], event['time'], event['id']))
+        counts = {}
+        for row in rows('SELECT body FROM profiles'):
+            for reserved_id in json.loads(row[0]).get('signed', []):
+                counts[reserved_id] = counts.get(reserved_id, 0) + 1
+        ordered = sorted([event_benefits(event) for event in published], key=lambda event: (event['date'], event['time'], event['id']))
+        return [{**event, 'reserved': counts.get(event['id'], 0)} for event in ordered]
 
     def profile(email):
         found = rows('SELECT body FROM profiles WHERE email=?', (email,))
