@@ -33,8 +33,8 @@ window.StudentOnboarding = (() => {
   function about(container) {
     container.append(node('p', 'A few details to help you find your corner of campus.'));
     CoursePicker(container, courses.items, profile.course_id, id => profile.course_id = id);
-    container.append(node('p', 'All visible undergraduate courses from Warwick?s published directory. Type to narrow the list, or choose ?Course not listed?.', 'field-note'));
-    const source = node('a', 'Browse Warwick?s full course directory'); source.href = 'https://warwick.ac.uk/study/undergraduate/courses/'; source.target = '_blank'; source.rel = 'noopener noreferrer'; container.append(source);
+    container.append(node('p', 'All visible undergraduate courses from Warwick’s published directory. Type to narrow the list, or choose “Course not listed”.', 'field-note'));
+    const source = node('a', 'Browse Warwick’s full course directory'); source.href = 'https://warwick.ac.uk/study/undergraduate/courses/'; source.target = '_blank'; source.rel = 'noopener noreferrer'; container.append(source);
     const year = document.createElement('select'); year.id = 'ob-year';
     const blank = node('option', 'Choose a year'); blank.value = ''; year.append(blank);
     for (const value of courses.graduation_years) { const option = node('option', String(value)); option.value = value; option.selected = profile.graduation_year === value; year.append(option); }
