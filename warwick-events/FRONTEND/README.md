@@ -57,3 +57,50 @@ From `warwick-events`:
 ```
 
 Workflow tests use temporary SQLite databases and a stub extractor, never a paid model call. A real extraction smoke test requires your configured AI account.
+
+## Student onboarding
+
+First-time **student** demo accounts now complete four screens: about you,
+interests, society discovery, and a completion summary. Exec and external roles
+keep their existing flows. Returning completed students go straight to Discover;
+Settings ? edit your campus profile reopens onboarding.
+
+Use the existing start commands above. No new runtime dependencies are required.
+Each Continue saves the current step to SQLite; Back retains current selections,
+and reload resumes at the last saved step. Selections not yet saved by Continue
+are held in page memory only. Choosing zero interests and following no societies
+are both valid. Course and expected graduation year are required to finish.
+
+The course picker contains 18 real courses plus Course not listed. The society
+selection contains 26 real societies. These are curated snapshots, not complete
+university directories. `BACKEND/catalogs/` records official URLs, retrieval dates
+and version metadata. Course entries come from Warwick's public course-search
+feed; society names and links come from Warwick SU's society directory. Short
+descriptions are omitted rather than invented. Interests and course-subject
+mappings are explicit editorial labels. Snapshot data loads locally: signing in
+does not scrape websites or make AI calls.
+
+Detailed onboarding interests are separate from the existing broad event-category
+preferences. This release does not change event ranking. A future recommendation
+engine can read the profile's interest IDs, course, graduation year, followed
+society IDs and derived event categories, then combine those with existing saved
+plans. Society matches score two points per selected-interest overlap and one for
+a course-subject association, with alphabetical ties. Following does not purchase
+SU membership. Ethnicity and the default-off cultural consent field never affect
+these matches, are not sent to AI, and can be cleared by choosing Prefer not to say.
+The ethnicity input is optional self-description; completion never requires it.
+Identity is still the existing self-selected demo email, not verified university
+authentication: use fictional profile details for demonstrations.
+
+Optional real-browser smoke test (isolated temporary SQLite, no model calls):
+
+```powershell
+# From the repository root, using your existing virtual environment's Python:
+python -m pip install playwright
+# Uses installed Microsoft Edge on Windows; otherwise install Chromium:
+python -m playwright install chromium
+python warwick-events/FRONTEND/tests/onboarding_smoke.py
+```
+
+This checks first login, validation, Back, selections, refresh/resume, following,
+completion, returning-user behaviour and settings editing in a mobile viewport.

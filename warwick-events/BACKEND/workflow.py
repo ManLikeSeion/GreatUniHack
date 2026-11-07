@@ -21,6 +21,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from PIL import Image
 from pydantic import BaseModel, Field
+from BACKEND.onboarding import read_profile, register_onboarding
 
 ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(ROOT / '.env')
@@ -126,6 +127,7 @@ def create_workflow(db_path=None, extractor=None, event_provider=None):
         CREATE TABLE IF NOT EXISTS sessions(token TEXT PRIMARY KEY,email TEXT,role TEXT,expires TEXT);
         CREATE TABLE IF NOT EXISTS records(id TEXT PRIMARY KEY,owner TEXT,status TEXT,body TEXT);
         CREATE TABLE IF NOT EXISTS profiles(email TEXT PRIMARY KEY,body TEXT);
+        CREATE TABLE IF NOT EXISTS student_profiles(email TEXT PRIMARY KEY,body TEXT);
         CREATE TABLE IF NOT EXISTS conversations(email TEXT PRIMARY KEY,body TEXT);
     ''')
     db.commit()
@@ -147,6 +149,8 @@ def create_workflow(db_path=None, extractor=None, event_provider=None):
         if not result or result[0][2] < datetime.now(timezone.utc).isoformat():
             raise HTTPException(401, 'session expired; please sign in again')
         return {'email': result[0][0], 'role': result[0][1]}
+
+    register_onboarding(router, identity, rows, write, lock)
 
     def require_exec(user):
         if user['role'] != 'exec':
@@ -198,7 +202,8 @@ def create_workflow(db_path=None, extractor=None, event_provider=None):
     @router.get('/state')
     def state(user=Depends(identity)):
         history = rows('SELECT body FROM conversations WHERE email=?', (user['email'],))
-        return {'user': user, 'plans': profile(user['email']), 'history': json.loads(history[0][0]) if history else [],
+        return {'onboarding_completed': read_profile(rows, user['email']).onboarding_completed if user['role'] == 'student' else True,
+                'user': user, 'plans': profile(user['email']), 'history': json.loads(history[0][0]) if history else [],
                 'ai_available': bool(os.getenv('ANTHROPIC_API_KEY') and os.getenv('ANTHROPIC_MODEL'))}
 
     @router.get('/catalog')

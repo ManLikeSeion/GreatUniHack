@@ -1,0 +1,328 @@
+{
+  "version": 1,
+  "retrieved_on": "2026-11-07",
+  "curated": true,
+  "source_url": "https://www.warwicksu.com/societies-sports/societies/soclist/",
+  "items": [
+    {
+      "id": "computing",
+      "name": "Computing",
+      "category": "technology",
+      "description": null,
+      "interest_ids": [
+        "programming",
+        "gaming"
+      ],
+      "course_subjects": [
+        "computing"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/computing/"
+    },
+    {
+      "id": "coding-society",
+      "name": "Coding Society",
+      "category": "technology",
+      "description": null,
+      "interest_ids": [
+        "programming"
+      ],
+      "course_subjects": [
+        "computing"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwickcodingsociety/"
+    },
+    {
+      "id": "warwick-ai",
+      "name": "Warwick AI",
+      "category": "technology",
+      "description": null,
+      "interest_ids": [
+        "ai"
+      ],
+      "course_subjects": [
+        "computing",
+        "data-science"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwickai/"
+    },
+    {
+      "id": "warwick-data-science-society",
+      "name": "Warwick Data Science Society",
+      "category": "technology",
+      "description": null,
+      "interest_ids": [
+        "data-science",
+        "ai"
+      ],
+      "course_subjects": [
+        "data-science",
+        "mathematics"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/wdss/"
+    },
+    {
+      "id": "warwick-maths-society",
+      "name": "Warwick Maths Society",
+      "category": "academic",
+      "description": null,
+      "interest_ids": [
+        "mathematics"
+      ],
+      "course_subjects": [
+        "mathematics"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/maths/"
+    },
+    {
+      "id": "physics-society",
+      "name": "Physics Society",
+      "category": "academic",
+      "description": null,
+      "interest_ids": [
+        "physics"
+      ],
+      "course_subjects": [
+        "physics"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/physoc/"
+    },
+    {
+      "id": "chemsoc",
+      "name": "ChemSoc",
+      "category": "academic",
+      "description": null,
+      "interest_ids": [
+        "chemistry"
+      ],
+      "course_subjects": [
+        "chemistry"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/atomic/"
+    },
+    {
+      "id": "biosoc",
+      "name": "BioSoc",
+      "category": "academic",
+      "description": null,
+      "interest_ids": [
+        "biology"
+      ],
+      "course_subjects": [
+        "biology"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/biosoc/"
+    },
+    {
+      "id": "economics-society",
+      "name": "Economics Society",
+      "category": "careers",
+      "description": null,
+      "interest_ids": [
+        "economics",
+        "finance"
+      ],
+      "course_subjects": [
+        "economics",
+        "finance"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/economics/"
+    },
+    {
+      "id": "warwick-law-society",
+      "name": "Warwick Law Society",
+      "category": "academic",
+      "description": null,
+      "interest_ids": [
+        "law"
+      ],
+      "course_subjects": [
+        "law"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/law/"
+    },
+    {
+      "id": "psychology",
+      "name": "Psychology",
+      "category": "academic",
+      "description": null,
+      "interest_ids": [
+        "psychology"
+      ],
+      "course_subjects": [
+        "psychology"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/psychology/"
+    },
+    {
+      "id": "histsoc",
+      "name": "HistSoc",
+      "category": "academic",
+      "description": null,
+      "interest_ids": [
+        "history"
+      ],
+      "course_subjects": [
+        "history"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/historysoc/"
+    },
+    {
+      "id": "warwick-engineering-society",
+      "name": "Warwick Engineering Society",
+      "category": "academic",
+      "description": null,
+      "interest_ids": [
+        "engineering"
+      ],
+      "course_subjects": [
+        "engineering"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/engineers/"
+    },
+    {
+      "id": "art-soc",
+      "name": "Art Soc",
+      "category": "arts",
+      "description": null,
+      "interest_ids": [
+        "art"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/artsoc/"
+    },
+    {
+      "id": "craft",
+      "name": "Craft",
+      "category": "arts",
+      "description": null,
+      "interest_ids": [
+        "crafts"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/craft/"
+    },
+    {
+      "id": "esports",
+      "name": "Esports",
+      "category": "gaming",
+      "description": null,
+      "interest_ids": [
+        "gaming"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/esports/"
+    },
+    {
+      "id": "tabletop-games-and-roleplaying-society",
+      "name": "Tabletop Games and Roleplaying Society",
+      "category": "gaming",
+      "description": null,
+      "interest_ids": [
+        "tabletop"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/sff/"
+    },
+    {
+      "id": "warwick-student-cinema",
+      "name": "Warwick Student Cinema",
+      "category": "entertainment",
+      "description": null,
+      "interest_ids": [
+        "film"
+      ],
+      "course_subjects": [
+        "film"
+      ],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/filmsoc/"
+    },
+    {
+      "id": "rock-soc",
+      "name": "Rock Soc",
+      "category": "entertainment",
+      "description": null,
+      "interest_ids": [
+        "music"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/rocksoc/"
+    },
+    {
+      "id": "good-food-society",
+      "name": "Good Food Society",
+      "category": "food",
+      "description": null,
+      "interest_ids": [
+        "cooking"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/goodfood/"
+    },
+    {
+      "id": "warwick-baking-society",
+      "name": "Warwick Baking Society",
+      "category": "food",
+      "description": null,
+      "interest_ids": [
+        "baking"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/58897/"
+    },
+    {
+      "id": "yoga",
+      "name": "Yoga",
+      "category": "fitness",
+      "description": null,
+      "interest_ids": [
+        "yoga"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/yoga/"
+    },
+    {
+      "id": "warwick-university-run-club-society",
+      "name": "Warwick University Run Club Society",
+      "category": "fitness",
+      "description": null,
+      "interest_ids": [
+        "running"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/74426/"
+    },
+    {
+      "id": "warwick-travel-society",
+      "name": "Warwick Travel Society",
+      "category": "social",
+      "description": null,
+      "interest_ids": [
+        "travel"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwicktravelsoc/"
+    },
+    {
+      "id": "african-caribbean-society",
+      "name": "African & Caribbean Society",
+      "category": "community",
+      "description": null,
+      "interest_ids": [
+        "african-caribbean-culture"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/acs/"
+    },
+    {
+      "id": "warwick-language-society",
+      "name": "Warwick Language Society",
+      "category": "community",
+      "description": null,
+      "interest_ids": [
+        "languages"
+      ],
+      "course_subjects": [],
+      "source_url": "https://www.warwicksu.com/societies-sports/societies/warwicklanguagesoc/"
+    }
+  ]
+}

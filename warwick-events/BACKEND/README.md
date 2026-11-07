@@ -125,3 +125,40 @@ Try POST /submit in http://127.0.0.1:8000/docs, then GET /events to see the resu
 Your API key may be in the root `.env` or `agent/.env`; both are gitignored.
 Environment variables take precedence, followed by the root file, then agent/.env.
 Restart the server after changing credentials.
+
+## Student onboarding API
+
+The existing workflow database now has a separate `student_profiles` table. Saved
+plans remain in `profiles`; updating either cannot overwrite the other.
+
+- `GET /api/profile`: current student's profile, defaults if never saved.
+- `PUT /api/profile`: partial preference update; all omitted fields are preserved.
+- `GET /api/courses`: curated course snapshot plus Course not listed and valid years.
+- `GET /api/interests`: grouped interest snapshot and broad event-category mappings.
+- `GET /api/societies`: curated society snapshot with official links and matching tags.
+- `GET /api/societies/matches`: positive deterministic matches for the saved profile.
+
+All endpoints require the existing bearer session. Profile and matches require
+student role; exec/external accounts get 403. The profile has `course_id`,
+`graduation_year`, optional `ethnicity`, `cultural_recommendations_opt_in`,
+`interest_ids`, `followed_society_ids`, `step` (1–4), and `onboarding_completed`.
+Responses also derive `event_categories` from explicit interests. Identity comes
+from the session, never a submitted user ID. Unknown fields and catalog IDs return
+422. Graduation years range from the current London year through ten years ahead.
+Null course/year is valid for drafts; completion requires a listed course (or
+`not-listed`) and a year. Lists are deduplicated. No minimum interests/follows.
+
+`/api/state` adds only `onboarding_completed`; it never exposes ethnicity. Detailed
+profile changes do not alter the existing assistant or feed ranking. Ethnicity is
+excluded from society matching and AI prompts even when cultural consent is true;
+that consent is reserved for a future explicitly designed feature.
+
+Catalogs are bundled UTF-8 JSON snapshots with stable IDs and provenance. Courses
+were selected from the official Warwick course-search feed:
+https://sitebuilder.warwick.ac.uk/sitebuilder2/api/dataentry/entries.json?page=%2Fstudy%2Fundergraduate%2Fcourses%2Fcourse-list
+Societies were verified at:
+https://www.warwicksu.com/societies-sports/societies/soclist/
+Refresh snapshots deliberately; do not silently rename existing IDs.
+
+The existing shared Event model and event routes are unchanged. This feature is
+for a local prototype; demo-email sessions do not provide real identity verification.

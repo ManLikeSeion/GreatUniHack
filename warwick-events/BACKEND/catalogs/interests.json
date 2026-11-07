@@ -1,0 +1,182 @@
+{
+  "version": 1,
+  "retrieved_on": "2026-11-07",
+  "curated": true,
+  "source_url": "https://www.warwicksu.com/societies-sports/societies/soclist/",
+  "items": [
+    {
+      "id": "fitness",
+      "name": "Sports and fitness",
+      "event_category": "sports",
+      "interests": [
+        {
+          "id": "yoga",
+          "name": "Yoga"
+        },
+        {
+          "id": "running",
+          "name": "Running"
+        }
+      ]
+    },
+    {
+      "id": "community",
+      "name": "Culture and community",
+      "event_category": "culture",
+      "interests": [
+        {
+          "id": "african-caribbean-culture",
+          "name": "African and Caribbean culture"
+        },
+        {
+          "id": "languages",
+          "name": "Languages"
+        }
+      ]
+    },
+    {
+      "id": "technology",
+      "name": "Technology and computing",
+      "event_category": "academic",
+      "interests": [
+        {
+          "id": "programming",
+          "name": "Programming"
+        },
+        {
+          "id": "ai",
+          "name": "Artificial intelligence"
+        },
+        {
+          "id": "data-science",
+          "name": "Data science"
+        }
+      ]
+    },
+    {
+      "id": "academic",
+      "name": "Academic subjects",
+      "event_category": "academic",
+      "interests": [
+        {
+          "id": "mathematics",
+          "name": "Mathematics"
+        },
+        {
+          "id": "physics",
+          "name": "Physics"
+        },
+        {
+          "id": "chemistry",
+          "name": "Chemistry"
+        },
+        {
+          "id": "biology",
+          "name": "Biology"
+        },
+        {
+          "id": "law",
+          "name": "Law"
+        },
+        {
+          "id": "psychology",
+          "name": "Psychology"
+        },
+        {
+          "id": "history",
+          "name": "History"
+        },
+        {
+          "id": "engineering",
+          "name": "Engineering"
+        }
+      ]
+    },
+    {
+      "id": "entertainment",
+      "name": "Music and entertainment",
+      "event_category": "arts",
+      "interests": [
+        {
+          "id": "film",
+          "name": "Film"
+        },
+        {
+          "id": "music",
+          "name": "Music"
+        }
+      ]
+    },
+    {
+      "id": "gaming",
+      "name": "Gaming",
+      "event_category": "social",
+      "interests": [
+        {
+          "id": "gaming",
+          "name": "Video games"
+        },
+        {
+          "id": "tabletop",
+          "name": "Tabletop games"
+        }
+      ]
+    },
+    {
+      "id": "food",
+      "name": "Food and cooking",
+      "event_category": "social",
+      "interests": [
+        {
+          "id": "cooking",
+          "name": "Cooking"
+        },
+        {
+          "id": "baking",
+          "name": "Baking"
+        }
+      ]
+    },
+    {
+      "id": "arts",
+      "name": "Arts and creativity",
+      "event_category": "arts",
+      "interests": [
+        {
+          "id": "art",
+          "name": "Art"
+        },
+        {
+          "id": "crafts",
+          "name": "Crafts"
+        }
+      ]
+    },
+    {
+      "id": "careers",
+      "name": "Careers and professional development",
+      "event_category": "careers",
+      "interests": [
+        {
+          "id": "economics",
+          "name": "Economics"
+        },
+        {
+          "id": "finance",
+          "name": "Finance"
+        }
+      ]
+    },
+    {
+      "id": "social",
+      "name": "Social activities and hobbies",
+      "event_category": "social",
+      "interests": [
+        {
+          "id": "travel",
+          "name": "Travel"
+        }
+      ]
+    }
+  ]
+}

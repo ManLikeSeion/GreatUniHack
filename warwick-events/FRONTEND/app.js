@@ -427,6 +427,8 @@ async function startWorkflow() {
   savedEvents = events;
   preferences = state.plans;
   workflowHistory = state.history;
+  StudentOnboarding.configure(state);
+  if (await StudentOnboarding.openIfNeeded(state)) return;
   showApp(state.user.email, state.user.role);
   renderChatHistory();
   for (const option of $('profile-interests').options) option.selected = (preferences.interests || []).includes(option.value);

@@ -1,1 +1,1 @@
-{"name":"warwick-common","version":"1.0.0","private":true,"scripts":{"dev":"node server.js","start":"node server.js","check":"node --check app.js && node --check server.js"}}
+{"name":"warwick-common","version":"1.0.0","private":true,"scripts":{"dev":"node server.js","start":"node server.js","check":"node --check app.js && node --check onboarding.js && node --check server.js"}}

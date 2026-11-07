@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "retrieved_on": "2026-11-07",
+  "curated": true,
+  "source_url": "https://sitebuilder.warwick.ac.uk/sitebuilder2/api/dataentry/entries.json?page=%2Fstudy%2Fundergraduate%2Fcourses%2Fcourse-list",
+  "items": [
+    {
+      "id": "accounting-and-finance-bsc",
+      "name": "Accounting and Finance BSc",
+      "subject": "finance",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-accounting-finance"
+    },
+    {
+      "id": "biological-sciences-bsc",
+      "name": "Biological Sciences BSc",
+      "subject": "biology",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-biological-sciences"
+    },
+    {
+      "id": "chemistry-bsc",
+      "name": "Chemistry BSc",
+      "subject": "chemistry",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-chemistry"
+    },
+    {
+      "id": "computer-science-bsc",
+      "name": "Computer Science BSc",
+      "subject": "computing",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-computer-science"
+    },
+    {
+      "id": "data-science-bsc",
+      "name": "Data Science BSc",
+      "subject": "data-science",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-data-science"
+    },
+    {
+      "id": "economics-bsc",
+      "name": "Economics BSc",
+      "subject": "economics",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-economics"
+    },
+    {
+      "id": "engineering-beng",
+      "name": "Engineering BEng",
+      "subject": "engineering",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/beng-engineering"
+    },
+    {
+      "id": "english-literature-ba",
+      "name": "English Literature BA",
+      "subject": "literature",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-english-literature"
+    },
+    {
+      "id": "history-ba",
+      "name": "History BA",
+      "subject": "history",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-history"
+    },
+    {
+      "id": "law-llb",
+      "name": "Law LLB",
+      "subject": "law",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/llb-law"
+    },
+    {
+      "id": "liberal-arts-ba",
+      "name": "Liberal Arts BA",
+      "subject": "liberal-arts",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-liberal-arts"
+    },
+    {
+      "id": "mathematics-bsc",
+      "name": "Mathematics BSc",
+      "subject": "mathematics",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-mathematics"
+    },
+    {
+      "id": "morse-bsc",
+      "name": "MORSE BSc",
+      "subject": "mathematics",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-morse"
+    },
+    {
+      "id": "philosophy-ba",
+      "name": "Philosophy BA",
+      "subject": "philosophy",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-philosophy"
+    },
+    {
+      "id": "physics-bsc",
+      "name": "Physics BSc",
+      "subject": "physics",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-physics"
+    },
+    {
+      "id": "politics-ba",
+      "name": "Politics BA",
+      "subject": "politics",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-politics"
+    },
+    {
+      "id": "psychology-bsc",
+      "name": "Psychology BSc",
+      "subject": "psychology",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/bsc-psychology"
+    },
+    {
+      "id": "sociology-ba",
+      "name": "Sociology BA",
+      "subject": "sociology",
+      "source_url": "https://warwick.ac.uk/study/undergraduate/courses/ba-sociology"
+    }
+  ]
+}
