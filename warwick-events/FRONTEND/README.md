@@ -2,6 +2,12 @@
 
 A simple Warwick campus frontend in HTML, CSS and JavaScript. No dependencies or build step.
 
+## account types
+
+Choose student, exec or external before entering your email. Students browse and save events; execs can also submit society events. External vendor accounts open a promotion builder with business details, a website link, start date, duration and a review step. The illustrative rate is £15 per day, not a real commercial price. “Simulate payment” saves a local demo promotion; it does not charge money or publish an advertisement. Real payments need a backend and payment provider integration.
+
+Roles are self-selected demo UI modes, not authentication or secure permissions. The role and email persist for the current browser session. Legacy email-only sessions default to student. Promotion records are stored per email in local storage. The role-specific navigation supersedes the earlier all-accounts-can-submit prototype behaviour described below.
+
 ## run locally
 
 From this directory, run `npm start`, then visit http://localhost:3000. Requires Node.js.

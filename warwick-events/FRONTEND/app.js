@@ -152,20 +152,41 @@ function applyDiscoverFilters() {
 }
 const icons = '<span class="event-dot"></span>';
 const sampleDays = [4, 7, 10, 12, 17, 20, 24, 27];
-function showApp(email) {
+let loginRole = null;
+let accountRole = 'student';
+const roleTabs = { student: ['discover','calendar','settings'], exec: ['discover','calendar','create','settings'], external: ['promote','settings'] };
+function chooseRole(role) {
+ if (!roleTabs[role]) return;
+ loginRole = role;
+ document.querySelectorAll('[data-role]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.role === role)));
+ $('login-form').hidden = false;
+ $('role-summary').textContent = `signing in as ${role}`;
+ $('email').placeholder = role === 'external' ? 'you@your-business.com' : 'you@warwick.ac.uk';
+ $('email').focus();
+}
+document.querySelectorAll('[data-role]').forEach(button => button.addEventListener('click',()=>chooseRole(button.dataset.role)));
+$('change-role').addEventListener('click',()=>{loginRole=null;$('login-form').hidden=true;document.querySelectorAll('[data-role]').forEach(button=>button.setAttribute('aria-pressed','false'));});
+function showApp(email, role = 'student') {
+  accountRole = roleTabs[role] ? role : 'student';
+  currentTab = null;
+  document.querySelectorAll('[data-tab]').forEach(button => button.hidden = !roleTabs[accountRole].includes(button.dataset.tab));
+  $('account-role').textContent = `${accountRole} account ? demo role, not verified`;
+
   $('login-view').hidden = true;
   $('app-view').hidden = false;
   $('account-email').value = email;
+  renderPromotions();
   loadPreferences();
-  setTab('discover');
+  setTab(accountRole === 'external' ? 'promote' : 'discover');
   renderCalendar();
 }
 $('login-form').addEventListener('submit', (event) => {
   event.preventDefault();
+  if (!loginRole) return;
   const email = $('email').value.trim();
   if (!$('email').checkValidity()) return $('email').reportValidity();
-  try { sessionStorage.setItem('common-email', email); } catch {}
-  showApp(email);
+  try { sessionStorage.setItem('common-email', email); sessionStorage.setItem('common-role', loginRole); } catch {}
+  showApp(email, loginRole);
 });
 function renderCalendar() {
   $('month-label').textContent = month.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }).toLowerCase();
@@ -192,7 +213,7 @@ function renderCalendar() {
   const events = eventsFor(selected).filter(event => !$('personal-only').checked || isPlanned(event));
   if (!events.length) {
     const empty = document.createElement('p'); empty.className = 'empty-events'; empty.textContent = 'a little breathing room. no events for this day yet.'; list.append(empty);
-    const create = document.createElement('button'); create.className = 'dummy-button'; create.textContent = 'be the first to make a plan +'; create.addEventListener('click', () => { setTab('create'); $('event-date').value = dateKey(selected); }); list.append(create);
+    const create = document.createElement('button'); create.hidden = accountRole !== 'exec'; create.className = 'dummy-button'; create.textContent = 'be the first to make a plan +'; create.addEventListener('click', () => { setTab('create'); $('event-date').value = dateKey(selected); }); list.append(create);
   }
   for (const [key, title] of [['signed','you are going.'],['liked','your favourites.'],['other','on your radar.']]) {
     const section=document.createElement('section'); section.className='agenda-group';
@@ -204,19 +225,20 @@ function renderCalendar() {
 }
 for (const [id, change] of [['previous-month', -1], ['next-month', 1]]) $(id).addEventListener('click', () => { month.setMonth(month.getMonth() + change); renderCalendar(); });
 $('today').addEventListener('click', () => { selected = new Date(); dayOpen = true; month = new Date(selected.getFullYear(), selected.getMonth(), 1); renderCalendar(); });
-const tabOrder = ['discover', 'calendar', 'create', 'settings'];
+const tabOrder = ['discover', 'calendar', 'create', 'promote', 'settings'];
 let currentTab = null;
 let tabTransition = 0;
 let runningTabAnimations = [];
 function setTab(tab) {
-  if (!tabOrder.includes(tab)) return;
+  if (!roleTabs[accountRole].includes(tab)) return;
   const previous = currentTab;
   const version = ++tabTransition;
   runningTabAnimations.forEach(animation => animation.cancel());
   runningTabAnimations = [];
   const outgoing = previous ? $(previous + '-panel') : null;
   const incoming = $(tab + '-panel');
-  const distance = tabOrder.indexOf(tab) - tabOrder.indexOf(previous);
+  const visibleTabs = roleTabs[accountRole];
+  const distance = visibleTabs.indexOf(tab) - visibleTabs.indexOf(previous);
   const slide = Math.abs(distance) === 1;
   const direction = Math.sign(distance);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -231,7 +253,7 @@ function setTab(tab) {
     const moveFocus = outgoing && outgoing.contains(document.activeElement);
     tabOrder.forEach(name => { const panel = $(name + '-panel'); panel.hidden = name !== tab; panel.inert = name !== tab; });
     currentTab = tab;
-    $('page-title').textContent = { discover: 'find your next good plan.', calendar: 'make room for good plans.', settings: 'a space that feels like you.', create: 'bring your people together.' }[tab];
+    $('page-title').textContent = { promote: 'give your business a little spotlight.', discover: 'find your next good plan.', calendar: 'make room for good plans.', settings: 'a space that feels like you.', create: 'bring your people together.' }[tab];
     if (tab === 'discover') renderFeed();
     if (moveFocus) { incoming.tabIndex = -1; incoming.focus({ preventScroll: true }); }
     if (!previous || previous === tab || reducedMotion || typeof incoming.animate !== 'function') return;
@@ -254,13 +276,20 @@ function setTab(tab) {
 document.querySelectorAll('[data-tab]').forEach(button => button.addEventListener('click', () => setTab(button.dataset.tab)));
 let toastTimer;
 document.querySelectorAll('[data-message]').forEach(button => button.addEventListener('click', () => { $('toast').textContent = button.dataset.message; $('toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => $('toast').hidden = true, 3000); }));
-$('logout').addEventListener('click', () => { try { sessionStorage.removeItem('common-email'); } catch {} $('app-view').hidden = true; $('login-view').hidden = false; $('email').value = ''; setTab('calendar'); $('email').focus(); });
+$('logout').addEventListener('click', () => {
+ try { sessionStorage.removeItem('common-email'); sessionStorage.removeItem('common-role'); } catch {}
+ ++tabTransition;runningTabAnimations.forEach(animation=>animation.cancel());runningTabAnimations=[];currentTab=null;
+ $('app-view').hidden=true;$('login-view').hidden=false;$('email').value='';loginRole=null;$('login-form').hidden=true;
+ document.querySelectorAll('[data-role]').forEach(button=>button.setAttribute('aria-pressed','false'));
+ $('promotion-form').reset();$('promotion-review').hidden=true;pendingPromotion=null;$('promotion-status').textContent='';
+});
 
 
 $('close-day').addEventListener('click', () => { dayOpen = false; renderCalendar(); });
 $('event-image').addEventListener('input', () => $('event-image').setCustomValidity(''));
 $('event-form').addEventListener('submit', event => {
   event.preventDefault();
+  if (accountRole !== 'exec') return;
   const image = $('event-image').value.trim();
   if (image && !image.startsWith('https://')) { $('event-image').setCustomValidity('please use an https image link.'); $('event-image').reportValidity(); return; }
   const fields = ['title', 'society', 'category', 'date', 'time', 'location', 'description'];
@@ -286,4 +315,33 @@ $('discover-search').addEventListener('input',applyDiscoverFilters);
 for(const id of ['discover-category','discover-date','discover-no-clashes']) $(id).addEventListener('change',applyDiscoverFilters);
 $('clear-discover-filters').addEventListener('click',()=>{ $('discover-filters').reset(); $('feed-filter').value='all'; applyDiscoverFilters(); });
 $('personal-only').addEventListener('change',renderCalendar);
-try { const email=sessionStorage.getItem('common-email'); if(email) showApp(email); } catch {}
+
+
+let pendingPromotion = null;
+const promotionKey = () => 'common-promotions:' + $('account-email').value.toLowerCase();
+function renderPromotions() {
+ const list=$('promotion-list');list.replaceChildren();
+ let promotions=[];try {const stored=JSON.parse(localStorage.getItem(promotionKey()) || '[]');if(Array.isArray(stored)) promotions=stored;}catch{}
+ if(!promotions.length){const empty=document.createElement('p');empty.className='field-note';empty.textContent='your first promotion starts here.';list.append(empty);}
+ promotions.forEach(promo=>{const item=document.createElement('p');item.className='organiser-note';item.textContent=`${promo.title} ? ${promo.date} ? ${promo.days} days ? ?${promo.total} ? simulated payment, not published`;list.append(item);});
+}
+$('promo-days').addEventListener('change',()=>{$('promo-total').textContent='?'+Number($('promo-days').value)*15;});
+$('promotion-form').addEventListener('input',()=>{$('promotion-review').hidden=true;pendingPromotion=null;$('promotion-status').textContent='';});
+$('promotion-form').addEventListener('submit',event=>{
+ event.preventDefault();if(accountRole!=='external')return;
+ const values=Object.fromEntries(['business','title','description','link','date','days'].map(key=>[key,$('promo-'+key).value.trim()]));
+ if(Object.values(values).some(value=>!value))return;
+ try { if(new URL(values.link).protocol!=='https:') {notify('please use an https website link.');return;} } catch {return;}
+ if(values.date<dateKey(new Date())) {notify('choose today or a future date.');return;}
+ if(![1,3,7].includes(Number(values.days)))return;
+ pendingPromotion={...values,total:Number(values.days)*15};
+ $('promo-preview').textContent=`${values.business} ? ${values.title} ? starts ${values.date} ? ${values.days} days ? ?${pendingPromotion.total}`;
+ $('promotion-review').hidden=false;
+});
+$('demo-payment').addEventListener('click',()=>{
+ if(accountRole!=='external'||!pendingPromotion)return;
+ try {const stored=JSON.parse(localStorage.getItem(promotionKey())||'[]');localStorage.setItem(promotionKey(),JSON.stringify([...(Array.isArray(stored)?stored:[]),pendingPromotion]));}
+ catch {$('promotion-status').textContent='could not save your demo promotion. browser storage may be unavailable.';return;}
+ pendingPromotion=null;$('promotion-review').hidden=true;$('promotion-form').reset();$('promo-total').textContent='?45';$('promotion-status').textContent='demo payment complete. no charge was made and your promotion is not published.';renderPromotions();
+});
+try { const email=sessionStorage.getItem('common-email'); if(email) showApp(email,sessionStorage.getItem('common-role')||'student'); } catch {}

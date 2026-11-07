@@ -19,7 +19,11 @@
   <main>
     <section id="login-view" class="login-layout">
       <div class="intro"><span class="eyebrow">a little more connected</span><h1>your people.<br>your plans.<br><span>all in one place.</span></h1><p>from your next society social to a bite between lectures.<br class="desktop-break"> find your corner of campus.</p><div class="community"><div class="avatars"><span>✳</span><span>☺</span><span>✿</span></div><span>one campus. so many possibilities.</span></div></div>
-      <div class="login-card"><div class="welcome-icon">✳</div><span class="eyebrow">come on in</span><h2>good to see you.</h2><p>your campus life starts here.</p><form id="login-form"><label for="email">your email</label><input id="email" name="email" type="email" placeholder="you@warwick.ac.uk" required autocomplete="email"><button class="primary" type="submit">let’s get you connected <svg><use href="#arrow"/></svg></button></form><p class="demo-note"><span>○</span> just a demo. no password needed.</p></div>
+      <div class="login-card"><div class="welcome-icon">✳</div><span class="eyebrow">come on in</span><h2>good to see you.</h2><p>your campus life starts here.</p><fieldset class="role-picker"><legend>you are a...</legend>
+        <button type="button" data-role="student" aria-pressed="false"><strong>student</strong><span>find your people &amp; plans</span></button>
+        <button type="button" data-role="exec" aria-pressed="false"><strong>exec</strong><span>bring your society together</span></button>
+        <button type="button" data-role="external" aria-pressed="false"><strong>external</strong><span>promote your venue or business</span></button>
+      </fieldset><form id="login-form" hidden><button type="button" id="change-role" class="text-button">change account type</button><p id="role-summary" class="field-note"></p><label for="email">your email</label><input id="email" name="email" type="email" placeholder="you@warwick.ac.uk" required autocomplete="email"><button class="primary" type="submit">let’s get you connected <svg><use href="#arrow"/></svg></button></form><p class="demo-note"><span>○</span> just a demo. no password needed.</p></div>
       <div class="login-foot"><span>less searching. more showing up.</span><span>societies · sports · culture · good food</span></div>
     </section>
     <section id="app-view" hidden>
@@ -37,10 +41,10 @@
         <div id="discover-feed" class="discover-feed" tabindex="0" aria-label="scroll through events"></div>
       </section>
       <section id="calendar-panel" class="panel"><div class="calendar-toolbar"><div><h2 id="month-label"></h2><p>something to look forward to.</p><label class="calendar-filter"><input type="checkbox" id="personal-only"> my calendar only</label></div><div class="month-actions"><button id="previous-month" aria-label="previous month">‹</button><button id="today">today</button><button id="next-month" aria-label="next month">›</button></div></div><div class="calendar-body"><div><div class="weekdays"><span>mon</span><span>tue</span><span>wed</span><span>thu</span><span>fri</span><span>sat</span><span>sun</span></div><div id="calendar-grid"></div><p class="sample-label"><span></span> sample events · a little preview of campus life</p></div><aside id="day-menu" hidden aria-label="events on the selected date"><button id="close-day" class="close-day" aria-label="close events">&times;</button><span class="eyebrow" id="selected-date"></span><h2>your day, at a glance.</h2><div id="event-list"></div></aside></div></section>
-      <section id="settings-panel" class="panel simple-panel" hidden><div class="welcome-icon"><svg><use href="#settings"/></svg></div><h2>make yourself at home.</h2><p>your account and campus preferences.</p><label for="account-email">signed in as</label><input id="account-email" readonly><button class="dummy-button" data-message="notification preferences are coming soon.">notification preferences <span>↗</span></button><button class="dummy-button" data-message="society preferences are coming soon.">your societies <span>↗</span></button><button id="logout" class="text-button">sign out ↗</button></section>
+      <section id="settings-panel" class="panel simple-panel" hidden><div class="welcome-icon"><svg><use href="#settings"/></svg></div><h2>make yourself at home.</h2><p>your account and campus preferences.</p><p id="account-role" class="organiser-note"></p><label for="account-email">signed in as</label><input id="account-email" readonly><button class="dummy-button" data-message="notification preferences are coming soon.">notification preferences <span>↗</span></button><button class="dummy-button" data-message="society preferences are coming soon.">your societies <span>↗</span></button><button id="logout" class="text-button">sign out ↗</button></section>
       <section id="create-panel" class="panel simple-panel create-panel" hidden>
         <span class="eyebrow">for the people who bring us together</span><h2>make something happen.</h2><p>share your society's next big (or little) plan.</p>
-        <p class="organiser-note">president demo &middot; anyone signed in can create an event here.</p>
+        <p class="organiser-note">exec demo &middot; share an event on behalf of your society.</p>
         <form id="event-form">
           <label for="event-title">event name</label><input id="event-title" required maxlength="100" placeholder="a social worth showing up for">
           <label for="event-society">society name</label><input id="event-society" required maxlength="80" placeholder="your society">
@@ -53,7 +57,22 @@
           <p id="save-error" role="alert" hidden></p><button class="primary" type="submit">add to the calendar <svg><use href="#arrow"/></svg></button>
         </form><p class="demo-note">saved on this browser only &middot; no verified society roles yet.</p>
       </section>
-      <nav class="bottom-nav" aria-label="main navigation"><button class="active" data-tab="discover" aria-current="page"><svg><use href="#discover"/></svg>discover</button><button data-tab="calendar"><svg><use href="#calendar"/></svg>calendar</button><button data-tab="create"><svg><use href="#create"/></svg>make an event</button><button data-tab="settings"><svg><use href="#settings"/></svg>settings</button></nav>
+      <section id="promote-panel" class="panel simple-panel create-panel" hidden>
+        <span class="eyebrow">local places. new faces.</span><h2>get on their radar.</h2><p>promote your venue, club night or local business to the campus community.</p>
+        <p class="organiser-note">demo promotion builder &middot; no real payments or advertising delivery.</p>
+        <form id="promotion-form">
+          <label for="promo-business">business or venue</label><input id="promo-business" required maxlength="100" placeholder="your venue name">
+          <label for="promo-title">promotion headline</label><input id="promo-title" required maxlength="100" placeholder="your next favourite night out">
+          <label for="promo-description">tell students about it</label><textarea id="promo-description" required maxlength="1000" rows="3" placeholder="what makes your place worth a visit?"></textarea>
+          <label for="promo-link">website or booking link</label><input id="promo-link" type="url" required placeholder="https://your-venue.com">
+          <div class="form-row"><div><label for="promo-date">start date</label><input id="promo-date" type="date" required></div><div><label for="promo-days">duration</label><select id="promo-days"><option value="1">1 day</option><option value="3" selected>3 days</option><option value="7">7 days</option></select></div></div>
+          <div class="promotion-total"><span>illustrative price &middot; &pound;15 / day</span><strong id="promo-total">&pound;45</strong></div>
+          <button class="primary" type="submit">review promotion <svg><use href="#arrow"/></svg></button>
+        </form>
+        <section id="promotion-review" class="promotion-review" hidden aria-label="review promotion"><h3>your promotion preview.</h3><p id="promo-preview"></p><p class="field-note">payment preview only. no card details are collected and nothing will be charged or published.</p><button id="demo-payment" class="primary">simulate payment</button></section>
+        <p id="promotion-status" role="status"></p><h3>your demo promotions.</h3><div id="promotion-list"></div>
+      </section>
+      <nav class="bottom-nav" aria-label="main navigation"><button class="active" data-tab="discover" aria-current="page"><svg><use href="#discover"/></svg>discover</button><button data-tab="calendar"><svg><use href="#calendar"/></svg>calendar</button><button data-tab="create"><svg><use href="#create"/></svg>make an event</button><button data-tab="promote" hidden><svg><use href="#create"/></svg>promote</button><button data-tab="settings"><svg><use href="#settings"/></svg>settings</button></nav>
     </section>
   </main><div id="toast" role="status" hidden></div><footer>common ground. extraordinary connections. <span>warwick, together.</span></footer>
 </body></html>
