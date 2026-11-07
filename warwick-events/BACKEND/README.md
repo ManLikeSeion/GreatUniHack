@@ -13,7 +13,7 @@ python -m venv .venv
 Leave that terminal running. Open http://127.0.0.1:8000/docs to try the API.
 React or another frontend at http://localhost:5173 is allowed by CORS.
 On macOS/Linux use `.venv/bin/python` instead of `.\.venv\Scripts\python.exe`.
-For runtime dependencies alone install `-r requirements.txt`.
+For runtime dependencies alone install `-r BACKEND/requirements.txt`.
 
 ## Storage and importing
 
@@ -76,7 +76,7 @@ that last GET in the second terminal: the event and ID survive restart.
 - `POST /events`: new event with server-assigned UUID and HTTP 201; exact duplicates
   return the existing event and HTTP 200. Invalid input returns 422.
 
-No automatic sample seeding, scraping, LLM calls, authentication or deployment is
+No automatic sample seeding, scraping, authentication or deployment is
 included. This is a local demo API. Source URL support remains a proposed shared
 schema addition to coordinate with Adam and Seion; it has not been implemented.
 
@@ -96,3 +96,61 @@ HTTPX deprecation warning; it does not prevent these tests from running.
 
 The existing project `requirements.txt` is required by the development requirements.
 Include it when you later commit/share the backend; no commits are made by setup.
+
+## AI extraction (Adam's agent)
+
+`POST /extract` accepts form fields `text`, `society_name`, `society_id` and an
+optional `image` file. Supply text, an image, or both. Posters may be JPEG, PNG,
+WebP or GIF, at most 5 MiB; captions are limited to 20,000 characters.
+
+Install the updated backend dependencies with the command at the top of this
+README. Set `ANTHROPIC_API_KEY` in your terminal or a local ignored `.env` file
+in the repository root (Adam's extractor loads dotenv). Never commit credentials.
+For example, set `$env:ANTHROPIC_API_KEY` locally, then launch uvicorn in that same
+terminal. Requests invoke Adam's configured model and may incur provider charges.
+His model selection is left unchanged; a real provider call still needs a smoke
+check using your team's account.
+
+With the server running, open http://127.0.0.1:8000/docs, expand POST /extract,
+choose Try it out, enter a caption or upload a poster, then Execute. Text-only
+PowerShell example:
+
+```powershell
+$drafts = Invoke-RestMethod http://127.0.0.1:8000/extract -Method Post -Body @{
+    text = 'Board games on 13 November 2026 at 7pm in Rootes'
+    society_name = 'Example Games Society'
+}
+$drafts.events | Format-List
+```
+
+Returns `{"events": [...]}` validated against the canonical shared schema. Draft
+IDs are null and review flags are preserved. Extraction does not save events.
+After reviewing/correcting a draft, submit it to POST /events to persist it. This
+is not yet a server-enforced approval workflow or persistent submission session.
+No events found returns `{"events": []}`. Invalid input returns 422, unsupported
+media 415, oversized posters 413, missing/invalid credentials or rate limiting
+503, provider timeouts 504, and extraction/provider failures 502. Error responses
+do not include provider details. File content must be a real supported image;
+provider rejection is reported as an extraction failure.
+
+The bridge uses Adam's existing `agent/extract.py` unchanged and revalidates its
+output against `shared/schema.py`. Frontends at localhost:3000, 127.0.0.1:3000 and
+localhost:5173 are permitted by CORS. Tests mock the agent call, so running them
+requires no API key and makes no paid calls.
+
+## Extract and save in one request (Adam's /submit endpoint)
+
+`POST /submit` accepts the same form fields and poster uploads as `/extract`,
+with the same limits and error responses. It returns a JSON array of stored
+Events with backend-assigned IDs (HTTP 200). Exact duplicates return existing
+records. All events in a submission are saved in a single transaction.
+
+Unlike `/extract`, `/submit` saves immediately, including events marked
+`needs_review`. Those flags remain visible in the stored data; this endpoint
+is not a review/publication gate. Use `/extract` when you want to review first.
+No events found returns an empty array and saves nothing.
+
+Try POST /submit in http://127.0.0.1:8000/docs, then GET /events to see the result.
+Your API key may be in the root `.env` or `agent/.env`; both are gitignored.
+Environment variables take precedence, followed by the root file, then agent/.env.
+Restart the server after changing credentials.
